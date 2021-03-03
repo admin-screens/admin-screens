@@ -1,0 +1,74 @@
+<div class="clr-row">
+    <div class="clr-col">
+        <clr-datagrid class="adm-datagrid" (clrDgRefresh)="refreshDataGrid($event)" [clrDgLoading]="loading"
+            [clrDgSelected]="selectedRecords" [clrDgPreserveSelection]="true">
+            <clr-dg-column *ngFor="let column of columns" [clrDgSortBy]="column.sortable ? column.id : null"
+                [clrDgSortOrder]="column.id === sortColumn ? sortDirection : ClrDatagridSortOrder.UNSORTED">
+                <ng-container *clrDgHideableColumn="{hidden: column.hidden}">
+                    {{ column.title }}
+                </ng-container>
+            </clr-dg-column>
+
+            <clr-dg-row *ngFor="let record of records" [clrDgItem]="record">
+                <ng-container *ngFor="let column of columns">
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.Hyperlink">
+                        <a *ngIf="column.route" [routerLink]="column.route(record)">{{propertyValue(column,
+                            record)}}</a>
+                        <a *ngIf="!column.route" [href]="propertyValue(column, record)"
+                            target="_blank">{{propertyValue(column,
+                            record)}}</a>
+                    </clr-dg-cell>
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.Text">
+                        {{propertyValue(column, record)}}
+                    </clr-dg-cell>
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.Json">
+                        {{propertyValue(column, record) | json}}
+                    </clr-dg-cell>
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.LabelArray">
+                        <span class="label label-sm" *ngFor="let label of propertyValue(column, record)">{{ label
+                            }}</span>
+                    </clr-dg-cell>
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.ObjectArray">
+                        <span class="label label-sm" *ngFor="let label of propertyValue(column, record)">{{
+                            formatObject(column, label) }}</span>
+                    </clr-dg-cell>
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.Date">
+                        {{propertyValue(column, record) | date}}
+                    </clr-dg-cell>
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.Check">
+                        <clr-icon shape="check" *ngIf="propertyValue(column, record)"></clr-icon>
+                    </clr-dg-cell>
+                    <clr-dg-cell *ngIf="column.visualization === ColumnDataVisualizationType.Image">
+                        <ng-container *ngIf="propertyValue(column, record)"><img [src]="propertyValue(column, record)">
+                        </ng-container>
+                    </clr-dg-cell>
+                </ng-container>
+
+                <clr-dg-action-overflow *ngIf="gridActions.length > 0">
+                    <ng-container *ngFor="let action of gridActions">
+                        <ng-container *ngIf="action.type === ActionTypeEnum.Href">
+                            <a [href]="action.href(action)" target="_blank" class="action-item">{{
+                                action.gridLabel(record) }}</a>
+                        </ng-container>
+                        <ng-container *ngIf="action.type === ActionTypeEnum.RouterLink">
+                            <button [routerLink]="action.routerLink(record)"
+                                [queryParams]="action.routerQueryParams(record)" class="action-item">{{
+                                action.gridLabel(record)
+                                }}</button>
+                        </ng-container>
+                    </ng-container>
+                </clr-dg-action-overflow>
+            </clr-dg-row>
+
+            <clr-dg-footer>
+                <clr-dg-pagination #pagination [clrDgPageSize]="pageSize" [clrDgPage]="currentPage + 1"
+                    [clrDgTotalItems]="total">
+                    <clr-dg-page-size [clrPageSizeOptions]="pageSizeOptions">entities per page
+                    </clr-dg-page-size>
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} entities
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+</div>

@@ -1,0 +1,2368 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "Action",
+            "id": "interface-Action-f583c9b3cdc3b9cc6bc4ddc969785a91",
+            "file": "projects/admin-screens/src/lib/action.model.ts",
+            "type": "interface",
+            "sourceCode": "import { ActionTypeEnum } from './action-type.enum';\r\n\r\nexport interface Action<T> {\r\n    type: ActionTypeEnum;\r\n    href?: (record: T) => string;\r\n    routerLink?: (record: T) => string[];\r\n    routerQueryParams?: (record: T) => any;\r\n    execute?: (records: T[]) => void;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "execute",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "href",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "routerLink",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "routerQueryParams",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "type",
+                    "type": "ActionTypeEnum",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "ButtonBarAction",
+            "id": "interface-ButtonBarAction-f81fd2d28a1be5481358db5efc953c80",
+            "file": "projects/admin-screens/src/lib/button-bar-action.model.ts",
+            "type": "interface",
+            "sourceCode": "import { Action } from './action.model';\r\n\r\nexport interface ButtonBarAction<T> extends Action<T> {\r\n    label: string;\r\n    icon?: string;\r\n    multiSelect: boolean;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "icon",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "label",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "multiSelect",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": [],
+            "extends": "Action"
+        },
+        {
+            "name": "Column",
+            "id": "interface-Column-76846c512b87e7c90f600414bb0e7346",
+            "file": "projects/admin-screens/src/lib/column.model.ts",
+            "type": "interface",
+            "sourceCode": "import { ColumnDataVisualizationType } from './column-data-visualization-type.enum';\r\nimport { HasId } from './has-id.model';\r\n\r\nexport interface Column<T extends HasId> {\r\n    id: string;\r\n    title: string;\r\n    property?: string;\r\n    propertyExpression?: ((obj: T) => any);\r\n    subPropertyExpression?: ((val: any) => string);\r\n    visualization: ColumnDataVisualizationType;\r\n    hidden?: boolean;\r\n    sortable?: boolean;\r\n    route?: ((obj: T) => string[]);\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "hidden",
+                    "type": "boolean",
+                    "optional": true,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "id",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "property",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "propertyExpression",
+                    "type": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "route",
+                    "type": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "sortable",
+                    "type": "boolean",
+                    "optional": true,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "subPropertyExpression",
+                    "type": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 9
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "visualization",
+                    "type": "ColumnDataVisualizationType",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "EntityLoader",
+            "id": "interface-EntityLoader-5f9c251ed5591dc3309816ddcbccb628",
+            "file": "projects/admin-screens/src/lib/entity-loader.interface.ts",
+            "type": "interface",
+            "sourceCode": "import { SortDefinition } from './sort-definition.model';\r\nimport { Observable } from 'rxjs';\r\nimport { ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';\r\n\r\n\r\nexport interface EntityLoader<TEntity, TEntityFilter> {\r\n    loadingState: ClrLoadingState;\r\n    totalRecords: Observable<number>;\r\n    totalPages: Observable<number>;\r\n\r\n    sort: Observable<SortDefinition>;\r\n    page: Observable<number>;\r\n    pageSize: Observable<number>;\r\n    filter: Observable<TEntityFilter>;\r\n    records: Observable<TEntity[]>;\r\n\r\n    updateFilter(filter: TEntityFilter);\r\n    updatePage(page: number);\r\n    updatePageSize(pageSize: number);\r\n    updateSort(sort: SortDefinition);\r\n    update(dataGridState: ClrDatagridStateInterface)\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "filter",
+                    "type": "Observable<TEntityFilter>",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "loadingState",
+                    "type": "ClrLoadingState",
+                    "optional": false,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "page",
+                    "type": "Observable<number>",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                },
+                {
+                    "name": "pageSize",
+                    "type": "Observable<number>",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
+                    "name": "records",
+                    "type": "Observable<TEntity[]>",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
+                },
+                {
+                    "name": "sort",
+                    "type": "Observable<SortDefinition>",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "totalPages",
+                    "type": "Observable<number>",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                },
+                {
+                    "name": "totalRecords",
+                    "type": "Observable<number>",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 152,
+            "methods": [
+                {
+                    "name": "update",
+                    "args": [
+                        {
+                            "name": "dataGridState",
+                            "type": "ClrDatagridStateInterface"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 21,
+                    "jsdoctags": [
+                        {
+                            "name": "dataGridState",
+                            "type": "ClrDatagridStateInterface",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateFilter",
+                    "args": [
+                        {
+                            "name": "filter",
+                            "type": "TEntityFilter"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 17,
+                    "jsdoctags": [
+                        {
+                            "name": "filter",
+                            "type": "TEntityFilter",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updatePage",
+                    "args": [
+                        {
+                            "name": "page",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 18,
+                    "jsdoctags": [
+                        {
+                            "name": "page",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updatePageSize",
+                    "args": [
+                        {
+                            "name": "pageSize",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 19,
+                    "jsdoctags": [
+                        {
+                            "name": "pageSize",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateSort",
+                    "args": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 20,
+                    "jsdoctags": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FilterModel",
+            "id": "interface-FilterModel-927f867f4189b962f29e36db14daef98",
+            "file": "projects/admin-screens/src/lib/filter.model.ts",
+            "type": "interface",
+            "sourceCode": "export interface FilterModel {\r\n    query?: string;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "query",
+                    "type": "string",
+                    "optional": true,
+                    "description": "",
+                    "line": 2
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "GridAction",
+            "id": "interface-GridAction-388ac912a2d191831769a4493396e8b4",
+            "file": "projects/admin-screens/src/lib/grid-action.model.ts",
+            "type": "interface",
+            "sourceCode": "import { Action } from './action.model';\r\n\r\nexport interface GridAction<T> extends Action<T> {\r\n    label: (record: T) => string;\r\n    href?: (record: T) => string;\r\n    routerLink?: (record: T) => string[];\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "href",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "label",
+                    "type": "function",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "routerLink",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 6
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": [],
+            "extends": "Action"
+        },
+        {
+            "name": "HasId",
+            "id": "interface-HasId-52b4a3fabef7c38c551d875b508863eb",
+            "file": "projects/admin-screens/src/lib/has-id.model.ts",
+            "type": "interface",
+            "sourceCode": "export interface HasId {\r\n    id: string;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "id",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "Page",
+            "id": "interface-Page-908dfab4bb6a59d6665b5fd60709aef0",
+            "file": "projects/admin-screens/src/lib/page.model.ts",
+            "type": "interface",
+            "sourceCode": "import { HasId } from './has-id.model';\r\n\r\nexport interface Page<T extends HasId | string> {\r\n    data: T[];\r\n    total: number;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "data",
+                    "type": "T[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "total",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "PagingParams",
+            "id": "interface-PagingParams-f1abfb41cd765ad3bdc7187954403994",
+            "file": "projects/admin-screens/src/lib/paging-params.model.ts",
+            "type": "interface",
+            "sourceCode": "import { SortDefinition } from './sort-definition.model';\r\nimport { FilterModel } from './filter.model';\r\n\r\nexport interface PagingParams<T extends FilterModel> {\r\n    sort: SortDefinition;\r\n    skip: number;\r\n    take: number;\r\n    filter?: T;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "filter",
+                    "type": "T",
+                    "optional": true,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "skip",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "sort",
+                    "type": "SortDefinition",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "take",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 7
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "SortDefinition",
+            "id": "interface-SortDefinition-f97d7a7587bb3430d2de021780fd43fc",
+            "file": "projects/admin-screens/src/lib/sort-definition.model.ts",
+            "type": "interface",
+            "sourceCode": "import { ClrDatagridSortOrder } from '@clr/angular';\r\n\r\nexport interface SortDefinition {\r\n    column: string;\r\n    direction: ClrDatagridSortOrder;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "column",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "direction",
+                    "type": "ClrDatagridSortOrder",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        }
+    ],
+    "injectables": [
+        {
+            "name": "EntityLoaderBase",
+            "id": "injectable-EntityLoaderBase-270fa3fc28ae0e34f1bc47c38f1353d1",
+            "file": "projects/admin-screens/src/lib/entity-loader.base.ts",
+            "properties": [
+                {
+                    "name": "filter",
+                    "defaultValue": "new BehaviorSubject(null)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                },
+                {
+                    "name": "loadingState",
+                    "defaultValue": "ClrLoadingState.DEFAULT",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
+                },
+                {
+                    "name": "page",
+                    "defaultValue": "new BehaviorSubject(0)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "pageSize",
+                    "defaultValue": "new BehaviorSubject(10)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21
+                },
+                {
+                    "name": "records",
+                    "defaultValue": "new BehaviorSubject([])",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 23
+                },
+                {
+                    "name": "sort",
+                    "defaultValue": "new BehaviorSubject(null)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19
+                },
+                {
+                    "name": "totalPages",
+                    "defaultValue": "new BehaviorSubject(0)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17
+                },
+                {
+                    "name": "totalRecords",
+                    "defaultValue": "new BehaviorSubject(0)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                }
+            ],
+            "methods": [
+                {
+                    "name": "loadPage",
+                    "args": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition"
+                        },
+                        {
+                            "name": "skip",
+                            "type": "number"
+                        },
+                        {
+                            "name": "take",
+                            "type": "number"
+                        },
+                        {
+                            "name": "filter",
+                            "type": "TFilter"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 33,
+                    "modifierKind": [
+                        113
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "skip",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "take",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "filter",
+                            "type": "TFilter",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "reload",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
+                    "modifierKind": [
+                        113
+                    ]
+                },
+                {
+                    "name": "update",
+                    "args": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 70,
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateFilter",
+                    "args": [
+                        {
+                            "name": "filter",
+                            "type": "TFilter"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 50,
+                    "jsdoctags": [
+                        {
+                            "name": "filter",
+                            "type": "TFilter",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updatePage",
+                    "args": [
+                        {
+                            "name": "page",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 55,
+                    "jsdoctags": [
+                        {
+                            "name": "page",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updatePageSize",
+                    "args": [
+                        {
+                            "name": "pageSize",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 60,
+                    "jsdoctags": [
+                        {
+                            "name": "pageSize",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateSort",
+                    "args": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 65,
+                    "jsdoctags": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "description": "",
+            "sourceCode": "import { CrudDataProvider } from './crud-data-provider.base';\r\nimport { FilterModel } from './filter.model';\r\nimport { HasId } from './has-id.model';\r\nimport { EntityLoader } from './entity-loader.interface';\r\nimport { BehaviorSubject } from 'rxjs';\r\nimport { SortDefinition } from './sort-definition.model';\r\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';\r\nimport { Injectable } from '@angular/core';\r\n\r\n\r\n@Injectable()\r\nexport class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>\r\n    implements EntityLoader<T, TFilter> {\r\n\r\n    loadingState = ClrLoadingState.DEFAULT;\r\n    totalRecords = new BehaviorSubject(0);\r\n    totalPages = new BehaviorSubject(0);\r\n\r\n    sort = new BehaviorSubject(null);\r\n    page = new BehaviorSubject(0);\r\n    pageSize = new BehaviorSubject(10);\r\n    filter = new BehaviorSubject(null);\r\n    records = new BehaviorSubject([]);\r\n\r\n    constructor(\r\n        private dataProvider: CrudDataProvider<T, TFilter>\r\n    ) { }\r\n\r\n    protected reload() {\r\n        this.loadPage(this.sort.value, this.page.value * this.pageSize.value, this.pageSize.value, this.filter.value);\r\n    }\r\n\r\n    protected loadPage(sort: SortDefinition, skip: number, take: number, filter: TFilter) {\r\n        this.loadingState = ClrLoadingState.LOADING;\r\n        this.dataProvider.search({\r\n            sort: sort,\r\n            skip: skip,\r\n            take: take,\r\n            filter: filter\r\n        }).subscribe(page => {\r\n            this.records.next(page.data);\r\n            this.totalRecords.next(page.total);\r\n            this.totalPages.next(Math.ceil(page.total / this.pageSize.value));\r\n            this.loadingState = ClrLoadingState.SUCCESS;\r\n        }, () => {\r\n            this.loadingState = ClrLoadingState.ERROR;\r\n        })\r\n    }\r\n\r\n    updateFilter(filter: TFilter) {\r\n        this.filter.next(filter);\r\n        this.reload();\r\n    }\r\n\r\n    updatePage(page: number) {\r\n        this.page.next(page);\r\n        this.reload();\r\n    }\r\n\r\n    updatePageSize(pageSize: number) {\r\n        this.pageSize.next(pageSize);\r\n        this.reload();\r\n    }\r\n\r\n    updateSort(sort: SortDefinition) {\r\n        this.sort.next(sort);\r\n        this.reload();\r\n    }\r\n\r\n    update(state: ClrDatagridStateInterface) {\r\n        this.page.next(state.page.current);\r\n        this.pageSize.next(state.page.size);\r\n\r\n        if (state.sort) {\r\n            this.sort.next({\r\n                column: state.sort.by,\r\n                direction: state.sort.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC\r\n            });\r\n        }\r\n        this.reload();\r\n    }\r\n}\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "dataProvider",
+                        "type": "CrudDataProvider<T | TFilter>"
+                    }
+                ],
+                "line": 23,
+                "jsdoctags": [
+                    {
+                        "name": "dataProvider",
+                        "type": "CrudDataProvider<T | TFilter>",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable"
+        },
+        {
+            "name": "RouteStateEntityLoader",
+            "id": "injectable-RouteStateEntityLoader-fb4287002a72f6b8262af2c937fe8190",
+            "file": "projects/admin-screens/src/lib/route-state-entity-loader.ts",
+            "properties": [
+                {
+                    "name": "filterPrefix",
+                    "defaultValue": "'filter.'",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 15,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "routeSubscription",
+                    "type": "Subscription",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "filter",
+                    "defaultValue": "new BehaviorSubject(null)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "loadingState",
+                    "defaultValue": "ClrLoadingState.DEFAULT",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "page",
+                    "defaultValue": "new BehaviorSubject(0)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 20,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "pageSize",
+                    "defaultValue": "new BehaviorSubject(10)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 21,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "records",
+                    "defaultValue": "new BehaviorSubject([])",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 23,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "sort",
+                    "defaultValue": "new BehaviorSubject(null)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "totalPages",
+                    "defaultValue": "new BehaviorSubject(0)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "totalRecords",
+                    "defaultValue": "new BehaviorSubject(0)",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "name": "ngOnDestroy",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 32
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 26
+                },
+                {
+                    "name": "update",
+                    "args": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 154,
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateFilter",
+                    "args": [
+                        {
+                            "name": "filter",
+                            "type": "TFilter"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 91,
+                    "jsdoctags": [
+                        {
+                            "name": "filter",
+                            "type": "TFilter",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateFromParams",
+                    "args": [
+                        {
+                            "name": "p",
+                            "type": "Params"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 38,
+                    "jsdoctags": [
+                        {
+                            "name": "p",
+                            "type": "Params",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updatePage",
+                    "args": [
+                        {
+                            "name": "page",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 112,
+                    "jsdoctags": [
+                        {
+                            "name": "page",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updatePageSize",
+                    "args": [
+                        {
+                            "name": "pageSize",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 122,
+                    "jsdoctags": [
+                        {
+                            "name": "pageSize",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "updateSort",
+                    "args": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 132,
+                    "jsdoctags": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "loadPage",
+                    "args": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition"
+                        },
+                        {
+                            "name": "skip",
+                            "type": "number"
+                        },
+                        {
+                            "name": "take",
+                            "type": "number"
+                        },
+                        {
+                            "name": "filter",
+                            "type": "TFilter"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 33,
+                    "modifierKind": [
+                        113
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "skip",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "take",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "filter",
+                            "type": "TFilter",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "reload",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
+                    "modifierKind": [
+                        113
+                    ],
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "update",
+                    "args": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 70,
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "updateFilter",
+                    "args": [
+                        {
+                            "name": "filter",
+                            "type": "TFilter"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 50,
+                    "jsdoctags": [
+                        {
+                            "name": "filter",
+                            "type": "TFilter",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "updatePage",
+                    "args": [
+                        {
+                            "name": "page",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 55,
+                    "jsdoctags": [
+                        {
+                            "name": "page",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "updatePageSize",
+                    "args": [
+                        {
+                            "name": "pageSize",
+                            "type": "number"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 60,
+                    "jsdoctags": [
+                        {
+                            "name": "pageSize",
+                            "type": "number",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                },
+                {
+                    "name": "updateSort",
+                    "args": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 65,
+                    "jsdoctags": [
+                        {
+                            "name": "sort",
+                            "type": "SortDefinition",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ],
+                    "inheritance": {
+                        "file": "EntityLoaderBase"
+                    }
+                }
+            ],
+            "description": "",
+            "sourceCode": "import { Injectable, OnDestroy, OnInit } from '@angular/core';\r\nimport { ActivatedRoute, Params, Router } from '@angular/router';\r\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';\r\nimport { Subscription } from 'rxjs';\r\nimport { CrudDataProvider } from './crud-data-provider.base';\r\nimport { EntityLoaderBase } from './entity-loader.base';\r\nimport { FilterModel } from './filter.model';\r\nimport { HasId } from './has-id.model';\r\nimport { SortDefinition } from './sort-definition.model';\r\n\r\n@Injectable()\r\nexport class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel>\r\n    extends EntityLoaderBase<T, TFilter> implements OnInit, OnDestroy {\r\n\r\n    private filterPrefix = 'filter.';\r\n    private routeSubscription: Subscription;\r\n\r\n    constructor(\r\n        private router: Router,\r\n        private activatedRoute: ActivatedRoute,\r\n        crudDataProvider: CrudDataProvider<T, TFilter>\r\n    ) {\r\n        super(crudDataProvider);\r\n    }\r\n\r\n    ngOnInit() {\r\n        this.routeSubscription = this.activatedRoute.queryParams.subscribe(\r\n            p => this.updateFromParams(p)\r\n        );\r\n    }\r\n\r\n    ngOnDestroy() {\r\n        if (this.routeSubscription) {\r\n            this.routeSubscription.unsubscribe();\r\n        }\r\n    }\r\n\r\n    updateFromParams(p: Params): void {\r\n        let shouldReload = false;\r\n        if ('page' in p) {\r\n            const page = parseInt(p.page, 10);\r\n            if (page !== this.page.value) {\r\n                shouldReload = true;\r\n                this.page.next(page);\r\n            }\r\n        }\r\n        if ('pageSize' in p) {\r\n            const pageSize = parseInt(p.page, 10);\r\n            if (pageSize !== this.pageSize.value) {\r\n                shouldReload = true;\r\n                this.pageSize.next(pageSize);\r\n            }\r\n        }\r\n        if ('sortColumn' in p || 'sortDirection' in p) {\r\n            const sort: SortDefinition = {\r\n                column: 'sortColumn' in p ? p['sortColumn'] : null,\r\n                direction: 'sortDirection' in p ? parseInt(p['sortDirection'], 10) : ClrDatagridSortOrder.UNSORTED\r\n            };\r\n            if (sort.column !== this.sort.value?.column ||\r\n                sort.direction !== this.sort.value?.direction) {\r\n                shouldReload = true;\r\n                this.sort.next(sort);\r\n            }\r\n        } else if (this.sort.value !== null) {\r\n            shouldReload = true;\r\n            this.sort.next(null);\r\n        }\r\n\r\n        let filterChanged = false;\r\n        let filter = this.filter.value;\r\n        let newFilter = {};\r\n        for (const key in p) {\r\n            if (Object.prototype.hasOwnProperty.call(p, key) && key.startsWith(this.filterPrefix)) {\r\n                const element = p[key];\r\n                const filterKey = key.substr(this.filterPrefix.length);\r\n                newFilter[filterKey] = element;\r\n\r\n                const existingElement = (filter && filterKey in filter) ? filter[filterKey] : null;\r\n                if (element !== existingElement) {\r\n                    filterChanged = true;\r\n                }\r\n            }\r\n        }\r\n        shouldReload = shouldReload || filterChanged;\r\n\r\n        if (shouldReload) {\r\n            this.reload();\r\n        }\r\n    }\r\n\r\n    updateFilter(filter: TFilter) {\r\n        let filterQueryParams = {}\r\n\r\n        for (const key in filter) {\r\n            if (Object.prototype.hasOwnProperty.call(filter, key)) {\r\n                const element = filter[key];\r\n                if (element !== null && element !== undefined) {\r\n                    filterQueryParams[this.filterPrefix + key] = element;\r\n                }\r\n            }\r\n        }\r\n\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                filter: filterQueryParams\r\n            }\r\n        });\r\n    }\r\n\r\n    updatePage(page: number) {\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                page: page\r\n            }\r\n        });\r\n    }\r\n\r\n    updatePageSize(pageSize: number) {\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                pageSize: pageSize\r\n            }\r\n        });\r\n    }\r\n\r\n    updateSort(sort: SortDefinition) {\r\n        if (!sort) {\r\n            this.router.navigate([], {\r\n                relativeTo: this.activatedRoute,\r\n                queryParamsHandling: 'merge',\r\n                queryParams: {\r\n                    sortColumn: null,\r\n                    sortDirection: null\r\n                }\r\n            });\r\n        } else {\r\n            this.router.navigate([], {\r\n                relativeTo: this.activatedRoute,\r\n                queryParamsHandling: 'merge',\r\n                queryParams: {\r\n                    sortColumn: sort.column,\r\n                    sortDirection: sort.direction\r\n                }\r\n            });\r\n        }\r\n    }\r\n\r\n    update(state: ClrDatagridStateInterface) {\r\n        const params = {\r\n            page: state.page.current,\r\n            pageSize: state.page.size,\r\n            sortColumn: state.sort?.by,\r\n            sortDirection: state.sort?.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC\r\n        };\r\n        if (!state.sort) {\r\n            delete params.sortColumn;\r\n            delete params.sortDirection;\r\n        }\r\n        this.router.navigate(\r\n            [],\r\n            {\r\n                relativeTo: this.activatedRoute,\r\n                queryParams: params,\r\n                queryParamsHandling: 'merge'\r\n            });\r\n    }\r\n}\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "router",
+                        "type": "Router"
+                    },
+                    {
+                        "name": "activatedRoute",
+                        "type": "ActivatedRoute"
+                    },
+                    {
+                        "name": "crudDataProvider",
+                        "type": "CrudDataProvider<T | TFilter>"
+                    }
+                ],
+                "line": 16,
+                "jsdoctags": [
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "activatedRoute",
+                        "type": "ActivatedRoute",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "crudDataProvider",
+                        "type": "CrudDataProvider<T | TFilter>",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "extends": "EntityLoaderBase",
+            "type": "injectable"
+        }
+    ],
+    "classes": [
+        {
+            "name": "CrudDataProvider",
+            "id": "class-CrudDataProvider-12a05443e9fddbc9583331267c199f84",
+            "file": "projects/admin-screens/src/lib/crud-data-provider.base.ts",
+            "type": "class",
+            "sourceCode": "import { Observable } from 'rxjs';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { HasId } from './has-id.model';\r\nimport { PagingParams } from './paging-params.model';\r\nimport { Page } from './page.model';\r\nimport { FilterModel } from './filter.model';\r\n\r\n\r\nexport abstract class CrudDataProvider<T extends HasId, TFilter extends FilterModel> {\r\n    protected abstract api: string;\r\n    protected abstract routes: string[];\r\n\r\n    constructor(protected httpClient: HttpClient) {\r\n    }\r\n\r\n    search(filter: PagingParams<TFilter>, parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = this.getBaseUrl(parentIds);\r\n\r\n        const requestParams: any = {\r\n            skip: filter.skip.toString(),\r\n            take: filter.take.toString()\r\n        };\r\n\r\n        if (filter.filter) {\r\n            for (const key in filter.filter) {\r\n                if (Object.prototype.hasOwnProperty.call(filter.filter, key)) {\r\n                    const element = filter.filter[key];\r\n                    if (element !== null && element !== undefined) {\r\n                        requestParams[key] = element;\r\n                    }\r\n                }\r\n            }\r\n        }\r\n\r\n        return this.httpClient.get<Page<T>>(url, {\r\n            params: requestParams\r\n        });\r\n    }\r\n\r\n    create(record: T, parentIds: string[] = null): Observable<T> {\r\n        const url = `${this.getBaseUrl(parentIds)}`;\r\n        return this.httpClient.post<T>(url, record);\r\n    }\r\n\r\n    getById(id: string, parentIds: string[] = null): Observable<T> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}`;\r\n        return this.httpClient.get<T>(url);\r\n    }\r\n\r\n    update(record: T, parentIds: string[] = null): Observable<void> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${record.id}`;\r\n        return this.httpClient.put<void>(url, record);\r\n    }\r\n\r\n    delete(id: string, parentIds: string[] = null): Observable<void> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}`;\r\n        return this.httpClient.delete<void>(url);\r\n    }\r\n\r\n    getRoot(parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = `${this.getBaseUrl(parentIds)}/root`;\r\n        return this.httpClient.get<Page<T>>(url);\r\n    }\r\n\r\n    getChildren(id: string, parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}/children`;\r\n        return this.httpClient.get<Page<T>>(url);\r\n    }\r\n\r\n    protected getBaseUrl(parentIds: string[] = null) {\r\n        this.verifyParentIds(parentIds);\r\n        let url = `${this.api}`;\r\n        for (let index = 0; index < this.routes.length; index++) {\r\n            const route = this.routes[index];\r\n            url += '/' + route;\r\n\r\n            if (index !== this.routes.length - 1) {\r\n                url += '/' + parentIds[index];\r\n            }\r\n        }\r\n        return url;\r\n    }\r\n\r\n    private verifyParentIds(parentIds: string[]) {\r\n        if (this.routes.length > 1 && (\r\n            !parentIds || parentIds.length !== this.routes.length - 1\r\n        )) {\r\n            throw Error('Not enough parent ids provided.');\r\n        }\r\n    }\r\n}\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "httpClient",
+                        "type": "HttpClient"
+                    }
+                ],
+                "line": 11,
+                "jsdoctags": [
+                    {
+                        "name": "httpClient",
+                        "type": "HttpClient",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "properties": [
+                {
+                    "name": "api",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10,
+                    "modifierKind": [
+                        113,
+                        117
+                    ]
+                },
+                {
+                    "name": "routes",
+                    "type": "string[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 11,
+                    "modifierKind": [
+                        113,
+                        117
+                    ]
+                }
+            ],
+            "methods": [
+                {
+                    "name": "create",
+                    "args": [
+                        {
+                            "name": "record",
+                            "type": "T"
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<T>",
+                    "typeParameters": [],
+                    "line": 40,
+                    "jsdoctags": [
+                        {
+                            "name": "record",
+                            "type": "T",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "args": [
+                        {
+                            "name": "id",
+                            "type": "string"
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<void>",
+                    "typeParameters": [],
+                    "line": 55,
+                    "jsdoctags": [
+                        {
+                            "name": "id",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getBaseUrl",
+                    "args": [
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "string",
+                    "typeParameters": [],
+                    "line": 70,
+                    "modifierKind": [
+                        113
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getById",
+                    "args": [
+                        {
+                            "name": "id",
+                            "type": "string"
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<T>",
+                    "typeParameters": [],
+                    "line": 45,
+                    "jsdoctags": [
+                        {
+                            "name": "id",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getChildren",
+                    "args": [
+                        {
+                            "name": "id",
+                            "type": "string"
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<Page<T>>",
+                    "typeParameters": [],
+                    "line": 65,
+                    "jsdoctags": [
+                        {
+                            "name": "id",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getRoot",
+                    "args": [
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<Page<T>>",
+                    "typeParameters": [],
+                    "line": 60,
+                    "jsdoctags": [
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "search",
+                    "args": [
+                        {
+                            "name": "filter",
+                            "type": "PagingParams<TFilter>"
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<Page<T>>",
+                    "typeParameters": [],
+                    "line": 16,
+                    "jsdoctags": [
+                        {
+                            "name": "filter",
+                            "type": "PagingParams<TFilter>",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "args": [
+                        {
+                            "name": "record",
+                            "type": "T"
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "Observable<void>",
+                    "typeParameters": [],
+                    "line": 50,
+                    "jsdoctags": [
+                        {
+                            "name": "record",
+                            "type": "T",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "defaultValue": "null",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "verifyParentIds",
+                    "args": [
+                        {
+                            "name": "parentIds",
+                            "type": "string[]"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 84,
+                    "modifierKind": [
+                        112
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "parentIds",
+                            "type": "string[]",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        }
+    ],
+    "directives": [],
+    "components": [
+        {
+            "name": "PagedListComponent",
+            "id": "component-PagedListComponent-c39d2aea7166e6868e7670532385e6d4",
+            "file": "projects/admin-screens/src/lib/paged-list/paged-list.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "adm-paged-list",
+            "styleUrls": [
+                "./paged-list.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./paged-list.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "buttonBarActions",
+                    "defaultValue": "[]",
+                    "description": "<p>Actions to show on top of the grid, in the action bar.</p>\n",
+                    "line": 37,
+                    "type": "ButtonBarAction<T>[]"
+                },
+                {
+                    "name": "columns",
+                    "defaultValue": "[]",
+                    "description": "<p>Columns to build in the grid.</p>\n",
+                    "line": 29,
+                    "type": "Column<T>[]"
+                },
+                {
+                    "name": "currentPage",
+                    "defaultValue": "0",
+                    "description": "<p>Current selected page, starting at 0.</p>\n",
+                    "line": 53,
+                    "type": "number"
+                },
+                {
+                    "name": "gridActions",
+                    "defaultValue": "[]",
+                    "description": "<p>Actions to show inside the grid, with a dropdown on each line.</p>\n",
+                    "line": 33,
+                    "type": "GridAction<T>[]"
+                },
+                {
+                    "name": "loading",
+                    "defaultValue": "ClrLoadingState.DEFAULT",
+                    "description": "<p>Indicates is the data is loading or refreshing.</p>\n",
+                    "line": 25,
+                    "type": "ClrLoadingState"
+                },
+                {
+                    "name": "pageSize",
+                    "defaultValue": "10",
+                    "description": "<p>The number of records in this page.</p>\n",
+                    "line": 57,
+                    "type": "number"
+                },
+                {
+                    "name": "pageSizeOptions",
+                    "defaultValue": "[5, 10, 15, 20, 50, 100]",
+                    "description": "<p>Page size options the user can choose from.</p>\n",
+                    "line": 45
+                },
+                {
+                    "name": "records",
+                    "defaultValue": "[]",
+                    "description": "<p>Slice of data records to show.</p>\n",
+                    "line": 41,
+                    "type": "T[]"
+                },
+                {
+                    "name": "sortColumn",
+                    "description": "<p>The column to sort by.</p>\n",
+                    "line": 61,
+                    "type": "string"
+                },
+                {
+                    "name": "sortDirection",
+                    "description": "<p>The direction to sort by</p>\n",
+                    "line": 65,
+                    "type": "ClrDatagridSortOrder"
+                },
+                {
+                    "name": "total",
+                    "defaultValue": "0",
+                    "description": "<p>Total amount of records. In case of server side paging, this is the amount of records on the server matching the filters.</p>\n",
+                    "line": 49,
+                    "type": "number"
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "update",
+                    "defaultValue": "new EventEmitter<ClrDatagridStateInterface>()",
+                    "line": 66,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "ActionTypeEnum",
+                    "defaultValue": "ActionTypeEnum",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "ClrDatagridSortOrder",
+                    "defaultValue": "ClrDatagridSortOrder",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17
+                },
+                {
+                    "name": "ColumnDataVisualizationType",
+                    "defaultValue": "ColumnDataVisualizationType",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                },
+                {
+                    "name": "firstEventIgnored",
+                    "defaultValue": "false",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 20,
+                    "modifierKind": [
+                        112
+                    ]
+                },
+                {
+                    "name": "selectedRecords",
+                    "defaultValue": "[]",
+                    "type": "T[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 68
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "formatObject",
+                    "args": [
+                        {
+                            "name": "column",
+                            "type": "Column<T>"
+                        },
+                        {
+                            "name": "label",
+                            "type": "any"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 83,
+                    "jsdoctags": [
+                        {
+                            "name": "column",
+                            "type": "Column<T>",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "label",
+                            "type": "any",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 72
+                },
+                {
+                    "name": "propertyValue",
+                    "args": [
+                        {
+                            "name": "column",
+                            "type": "Column<T>"
+                        },
+                        {
+                            "name": "record",
+                            "type": "T"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 75,
+                    "jsdoctags": [
+                        {
+                            "name": "column",
+                            "type": "Column<T>",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "record",
+                            "type": "T",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "refreshDataGrid",
+                    "args": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 87,
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "type": "ClrDatagridStateInterface",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';\nimport { ActionTypeEnum } from '../action-type.enum';\nimport { ButtonBarAction } from '../button-bar-action.model';\nimport { ColumnDataVisualizationType } from '../column-data-visualization-type.enum';\nimport { Column } from '../column.model';\nimport { GridAction } from '../grid-action.model';\nimport { HasId } from '../has-id.model';\n\n@Component({\n    selector: 'adm-paged-list',\n    templateUrl: './paged-list.component.html',\n    styleUrls: ['./paged-list.component.css']\n})\nexport class PagedListComponent<T extends HasId> implements OnInit {\n    ColumnDataVisualizationType = ColumnDataVisualizationType;\n    ClrDatagridSortOrder = ClrDatagridSortOrder;\n    ActionTypeEnum = ActionTypeEnum;\n\n    private firstEventIgnored = false;\n\n    /**\n     * Indicates is the data is loading or refreshing.\n     */\n    @Input() loading: ClrLoadingState = ClrLoadingState.DEFAULT;\n    /**\n     * Columns to build in the grid.\n     */\n    @Input() columns: Column<T>[] = [];\n    /**\n     * Actions to show inside the grid, with a dropdown on each line.\n     */\n    @Input() gridActions: GridAction<T>[] = [];\n    /**\n     * Actions to show on top of the grid, in the action bar.\n     */\n    @Input() buttonBarActions: ButtonBarAction<T>[] = [];\n    /**\n     * Slice of data records to show.\n     */\n    @Input() records: T[] = [];\n    /**\n     * Page size options the user can choose from.\n     */\n    @Input() pageSizeOptions = [5, 10, 15, 20, 50, 100];\n    /**\n     * Total amount of records. In case of server side paging, this is the amount of records on the server matching the filters.\n     */\n    @Input() total: number = 0;\n    /**\n     * Current selected page, starting at 0.\n     */\n    @Input() currentPage: number = 0;\n    /**\n     * The number of records in this page.\n     */\n    @Input() pageSize: number = 10;\n    /**\n     * The column to sort by.\n     */\n    @Input() sortColumn: string;\n    /** \n     * The direction to sort by\n     */\n    @Input() sortDirection: ClrDatagridSortOrder;\n    @Output() update = new EventEmitter<ClrDatagridStateInterface>();\n\n    selectedRecords: T[] = [];\n\n    constructor() { }\n\n    ngOnInit(): void {\n    }\n\n    propertyValue(column: Column<T>, record: T) {\n        if (column.propertyExpression) {\n            return column.propertyExpression(record);\n        } else {\n            return record[column.property];\n        }\n    }\n\n    formatObject(column: Column<T>, label: any) {\n        return column.subPropertyExpression(label);\n    }\n\n    refreshDataGrid(state: ClrDatagridStateInterface) {\n        if (!this.firstEventIgnored) {\n            this.firstEventIgnored = true;\n        } else {\n            console.info('grid state changed', state);\n            this.update.next(state);\n        }\n    }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".adm-datagrid {\r\n    min-height: 10rem;\r\n}",
+                    "styleUrl": "./paged-list.component.css"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 68
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<div class=\"clr-row\">\n    <div class=\"clr-col\">\n        <clr-datagrid class=\"adm-datagrid\" (clrDgRefresh)=\"refreshDataGrid($event)\" [clrDgLoading]=\"loading\"\n            [clrDgSelected]=\"selectedRecords\" [clrDgPreserveSelection]=\"true\">\n            <clr-dg-column *ngFor=\"let column of columns\" [clrDgSortBy]=\"column.sortable ? column.id : null\"\n                [clrDgSortOrder]=\"column.id === sortColumn ? sortDirection : ClrDatagridSortOrder.UNSORTED\">\n                <ng-container *clrDgHideableColumn=\"{hidden: column.hidden}\">\n                    {{ column.title }}\n                </ng-container>\n            </clr-dg-column>\n\n            <clr-dg-row *ngFor=\"let record of records\" [clrDgItem]=\"record\">\n                <ng-container *ngFor=\"let column of columns\">\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Hyperlink\">\n                        <a *ngIf=\"column.route\" [routerLink]=\"column.route(record)\">{{propertyValue(column,\n                            record)}}</a>\n                        <a *ngIf=\"!column.route\" [href]=\"propertyValue(column, record)\"\n                            target=\"_blank\">{{propertyValue(column,\n                            record)}}</a>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Text\">\n                        {{propertyValue(column, record)}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Json\">\n                        {{propertyValue(column, record) | json}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.LabelArray\">\n                        <span class=\"label label-sm\" *ngFor=\"let label of propertyValue(column, record)\">{{ label\n                            }}</span>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.ObjectArray\">\n                        <span class=\"label label-sm\" *ngFor=\"let label of propertyValue(column, record)\">{{\n                            formatObject(column, label) }}</span>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Date\">\n                        {{propertyValue(column, record) | date}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Check\">\n                        <clr-icon shape=\"check\" *ngIf=\"propertyValue(column, record)\"></clr-icon>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Image\">\n                        <ng-container *ngIf=\"propertyValue(column, record)\"><img [src]=\"propertyValue(column, record)\">\n                        </ng-container>\n                    </clr-dg-cell>\n                </ng-container>\n\n                <clr-dg-action-overflow *ngIf=\"gridActions.length > 0\">\n                    <ng-container *ngFor=\"let action of gridActions\">\n                        <ng-container *ngIf=\"action.type === ActionTypeEnum.Href\">\n                            <a [href]=\"action.href(action)\" target=\"_blank\" class=\"action-item\">{{\n                                action.gridLabel(record) }}</a>\n                        </ng-container>\n                        <ng-container *ngIf=\"action.type === ActionTypeEnum.RouterLink\">\n                            <button [routerLink]=\"action.routerLink(record)\"\n                                [queryParams]=\"action.routerQueryParams(record)\" class=\"action-item\">{{\n                                action.gridLabel(record)\n                                }}</button>\n                        </ng-container>\n                    </ng-container>\n                </clr-dg-action-overflow>\n            </clr-dg-row>\n\n            <clr-dg-footer>\n                <clr-dg-pagination #pagination [clrDgPageSize]=\"pageSize\" [clrDgPage]=\"currentPage + 1\"\n                    [clrDgTotalItems]=\"total\">\n                    <clr-dg-page-size [clrPageSizeOptions]=\"pageSizeOptions\">entities per page\n                    </clr-dg-page-size>\n                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}\n                    of {{pagination.totalItems}} entities\n                </clr-dg-pagination>\n            </clr-dg-footer>\n        </clr-datagrid>\n    </div>\n</div>"
+        }
+    ],
+    "modules": [
+        {
+            "name": "AdminScreensModule",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "PagedListComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "PagedListComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "context",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/admin-screens/src/test.ts",
+                "type": "",
+                "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+            },
+            {
+                "name": "Loading",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/paged-list.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Ready",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/paged-list.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/admin-screens/src/test.ts",
+                "type": "literal type"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/paged-list.stories.ts",
+                "type": "Story<PagedListComponent<HasId>>",
+                "defaultValue": "(args: PagedListComponent<HasId>) => ({\n  component: PagedListComponent,\n  props: args,\n})"
+            },
+            {
+                "name": "TextColumn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/paged-list.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            }
+        ],
+        "functions": [],
+        "typealiases": [],
+        "enumerations": [
+            {
+                "name": "ActionTypeEnum",
+                "childs": [
+                    {
+                        "name": "Action"
+                    },
+                    {
+                        "name": "ActionAndReload"
+                    },
+                    {
+                        "name": "Href"
+                    },
+                    {
+                        "name": "RouterLink"
+                    }
+                ],
+                "ctype": "miscellaneous",
+                "subtype": "enum",
+                "description": "",
+                "file": "projects/admin-screens/src/lib/action-type.enum.ts"
+            },
+            {
+                "name": "ColumnDataVisualizationType",
+                "childs": [
+                    {
+                        "name": "Hyperlink"
+                    },
+                    {
+                        "name": "Text"
+                    },
+                    {
+                        "name": "LabelArray"
+                    },
+                    {
+                        "name": "Date"
+                    },
+                    {
+                        "name": "Check"
+                    },
+                    {
+                        "name": "Image"
+                    },
+                    {
+                        "name": "Json"
+                    },
+                    {
+                        "name": "ObjectArray"
+                    }
+                ],
+                "ctype": "miscellaneous",
+                "subtype": "enum",
+                "description": "",
+                "file": "projects/admin-screens/src/lib/column-data-visualization-type.enum.ts"
+            }
+        ],
+        "groupedVariables": {
+            "projects/admin-screens/src/test.ts": [
+                {
+                    "name": "context",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/admin-screens/src/test.ts",
+                    "type": "",
+                    "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/admin-screens/src/test.ts",
+                    "type": "literal type"
+                }
+            ],
+            "stories/paged-list.stories.ts": [
+                {
+                    "name": "Loading",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Ready",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "Story<PagedListComponent<HasId>>",
+                    "defaultValue": "(args: PagedListComponent<HasId>) => ({\n  component: PagedListComponent,\n  props: args,\n})"
+                },
+                {
+                    "name": "TextColumn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {
+            "projects/admin-screens/src/lib/action-type.enum.ts": [
+                {
+                    "name": "ActionTypeEnum",
+                    "childs": [
+                        {
+                            "name": "Action"
+                        },
+                        {
+                            "name": "ActionAndReload"
+                        },
+                        {
+                            "name": "Href"
+                        },
+                        {
+                            "name": "RouterLink"
+                        }
+                    ],
+                    "ctype": "miscellaneous",
+                    "subtype": "enum",
+                    "description": "",
+                    "file": "projects/admin-screens/src/lib/action-type.enum.ts"
+                }
+            ],
+            "projects/admin-screens/src/lib/column-data-visualization-type.enum.ts": [
+                {
+                    "name": "ColumnDataVisualizationType",
+                    "childs": [
+                        {
+                            "name": "Hyperlink"
+                        },
+                        {
+                            "name": "Text"
+                        },
+                        {
+                            "name": "LabelArray"
+                        },
+                        {
+                            "name": "Date"
+                        },
+                        {
+                            "name": "Check"
+                        },
+                        {
+                            "name": "Image"
+                        },
+                        {
+                            "name": "Json"
+                        },
+                        {
+                            "name": "ObjectArray"
+                        }
+                    ],
+                    "ctype": "miscellaneous",
+                    "subtype": "enum",
+                    "description": "",
+                    "file": "projects/admin-screens/src/lib/column-data-visualization-type.enum.ts"
+                }
+            ]
+        },
+        "groupedTypeAliases": {}
+    },
+    "routes": [],
+    "coverage": {
+        "count": 2,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "projects/admin-screens/src/lib/action.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Action",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/button-bar-action.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ButtonBarAction",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/column.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Column",
+                "coveragePercent": 0,
+                "coverageCount": "0/10",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/crud-data-provider.base.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "CrudDataProvider",
+                "coveragePercent": 0,
+                "coverageCount": "0/13",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/entity-loader.base.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "EntityLoaderBase",
+                "coveragePercent": 0,
+                "coverageCount": "0/17",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/entity-loader.interface.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "EntityLoader",
+                "coveragePercent": 0,
+                "coverageCount": "0/14",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/filter.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "FilterModel",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/grid-action.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "GridAction",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/has-id.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "HasId",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/page.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Page",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/paged-list/paged-list.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PagedListComponent",
+                "coveragePercent": 47,
+                "coverageCount": "11/23",
+                "status": "medium"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/paging-params.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "PagingParams",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/route-state-entity-loader.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "RouteStateEntityLoader",
+                "coveragePercent": 0,
+                "coverageCount": "0/27",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/sort-definition.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "SortDefinition",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/test.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "context",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/test.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "require",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/paged-list.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Loading",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/paged-list.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Ready",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/paged-list.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/paged-list.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "TextColumn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            }
+        ]
+    }
+}
