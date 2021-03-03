@@ -13,11 +13,5 @@
     {
       "path": "./projects/admin-screens/tsconfig.spec.json"
     },
-    {
-      "path": "./projects/demo/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/demo/tsconfig.spec.json"
-    }
-]
+  ]
 }
