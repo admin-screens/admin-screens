@@ -4,6 +4,7 @@ import { HasId } from './has-id.model';
 import { PagingParams } from './paging-params.model';
 import { Page } from './page.model';
 import { FilterModel } from './filter.model';
+import { ClrDatagridSortOrder } from '@clr/angular';
 
 
 export abstract class CrudDataProvider<T extends HasId, TFilter extends FilterModel> {
@@ -20,6 +21,14 @@ export abstract class CrudDataProvider<T extends HasId, TFilter extends FilterMo
             skip: filter.skip.toString(),
             take: filter.take.toString()
         };
+
+        if (filter.sort) {
+            requestParams['sortColumn'] = filter.sort.column;
+
+            if (filter.sort.direction !== ClrDatagridSortOrder.UNSORTED) {
+                requestParams['sortDirection'] = filter.sort.direction;
+            }
+        }
 
         if (filter.filter) {
             for (const key in filter.filter) {

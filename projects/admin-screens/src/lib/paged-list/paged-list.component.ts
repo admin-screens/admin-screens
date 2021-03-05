@@ -6,6 +6,7 @@ import { ColumnDataVisualizationType } from '../column-data-visualization-type.e
 import { Column } from '../column.model';
 import { GridAction } from '../grid-action.model';
 import { HasId } from '../has-id.model';
+import { PageSelection } from './page-selection.model';
 
 @Component({
     selector: 'adm-paged-list',
@@ -63,7 +64,7 @@ export class PagedListComponent<T extends HasId> implements OnInit {
      * The direction to sort by
      */
     @Input() sortDirection: ClrDatagridSortOrder;
-    @Output() update = new EventEmitter<ClrDatagridStateInterface>();
+    @Output() update = new EventEmitter<PageSelection>();
 
     selectedRecords: T[] = [];
 
@@ -85,11 +86,16 @@ export class PagedListComponent<T extends HasId> implements OnInit {
     }
 
     refreshDataGrid(state: ClrDatagridStateInterface) {
+        console.info('grid state changed', state);
         if (!this.firstEventIgnored) {
             this.firstEventIgnored = true;
         } else {
-            console.info('grid state changed', state);
-            this.update.next(state);
+            this.update.next({
+                pageSize: state.page.size,
+                page: state.page.current - 1,
+                sortColumn: state.sort?.by as string,
+                sortDirection: state.sort?.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC
+            });
         }
     }
 }

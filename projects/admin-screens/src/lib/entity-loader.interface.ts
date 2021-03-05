@@ -1,6 +1,7 @@
 import { SortDefinition } from './sort-definition.model';
 import { Observable } from 'rxjs';
-import { ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';
+import { ClrLoadingState } from '@clr/angular';
+import { PageSelection } from './paged-list/page-selection.model';
 
 
 export interface EntityLoader<TEntity, TEntityFilter> {
@@ -18,5 +19,5 @@ export interface EntityLoader<TEntity, TEntityFilter> {
     updatePage(page: number);
     updatePageSize(pageSize: number);
     updateSort(sort: SortDefinition);
-    update(dataGridState: ClrDatagridStateInterface)
+    update(state: PageSelection)
 }

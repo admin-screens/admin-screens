@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
 import { PagedListComponent } from './paged-list/paged-list.component';
+import { FilterContainerComponent } from './filter-container/filter-container.component';
 
 
 
 @NgModule({
-    declarations: [PagedListComponent],
+    declarations: [PagedListComponent, FilterContainerComponent],
     imports: [
         ClarityModule,
         FormsModule,

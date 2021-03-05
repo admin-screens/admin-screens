@@ -4,8 +4,9 @@ import { HasId } from './has-id.model';
 import { EntityLoader } from './entity-loader.interface';
 import { BehaviorSubject } from 'rxjs';
 import { SortDefinition } from './sort-definition.model';
-import { ClrDatagridSortOrder, ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';
+import { ClrLoadingState } from '@clr/angular';
 import { Injectable } from '@angular/core';
+import { PageSelection } from './paged-list/page-selection.model';
 
 
 @Injectable()
@@ -67,14 +68,14 @@ export class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>
         this.reload();
     }
 
-    update(state: ClrDatagridStateInterface) {
-        this.page.next(state.page.current);
-        this.pageSize.next(state.page.size);
+    update(state: PageSelection) {
+        this.page.next(state.page);
+        this.pageSize.next(state.pageSize);
 
-        if (state.sort) {
+        if (state.sortColumn) {
             this.sort.next({
-                column: state.sort.by,
-                direction: state.sort.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC
+                column: state.sortColumn,
+                direction: state.sortDirection
             });
         }
         this.reload();
