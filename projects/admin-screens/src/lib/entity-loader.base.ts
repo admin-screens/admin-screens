@@ -13,7 +13,7 @@ import { PageSelection } from './paged-list/page-selection.model';
 export class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>
     implements EntityLoader<T, TFilter> {
 
-    loadingState = ClrLoadingState.DEFAULT;
+    loadingState = new BehaviorSubject(ClrLoadingState.DEFAULT);
     totalRecords = new BehaviorSubject(0);
     totalPages = new BehaviorSubject(0);
 
@@ -32,7 +32,7 @@ export class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>
     }
 
     protected loadPage(sort: SortDefinition, skip: number, take: number, filter: TFilter) {
-        this.loadingState = ClrLoadingState.LOADING;
+        this.loadingState.next(ClrLoadingState.LOADING);
         this.dataProvider.search({
             sort: sort,
             skip: skip,
@@ -42,9 +42,9 @@ export class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>
             this.records.next(page.data);
             this.totalRecords.next(page.total);
             this.totalPages.next(Math.ceil(page.total / this.pageSize.value));
-            this.loadingState = ClrLoadingState.SUCCESS;
+            this.loadingState.next(ClrLoadingState.SUCCESS);
         }, () => {
-            this.loadingState = ClrLoadingState.ERROR;
+            this.loadingState.next(ClrLoadingState.ERROR);
         })
     }
 

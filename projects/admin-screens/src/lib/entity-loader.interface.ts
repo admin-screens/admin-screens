@@ -5,7 +5,7 @@ import { PageSelection } from './paged-list/page-selection.model';
 
 
 export interface EntityLoader<TEntity, TEntityFilter> {
-    loadingState: ClrLoadingState;
+    loadingState: Observable<ClrLoadingState>;
     totalRecords: Observable<number>;
     totalPages: Observable<number>;
 

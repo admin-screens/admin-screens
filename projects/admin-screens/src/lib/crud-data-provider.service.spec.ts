@@ -1,35 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { CrudDataProvider } from './crud-data-provider.base';
-import { HasId } from './has-id.model';
-import { FilterModel } from './filter.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ClrDatagridSortOrder } from '@clr/angular';
-
-interface Customer extends HasId {
-}
-interface CustomerFilter extends FilterModel {
-}
-@Injectable()
-class CustomerProvider extends CrudDataProvider<Customer, CustomerFilter> {
-    api = '/api';
-    routes = ['customers'];
-
-    constructor(httpClient: HttpClient) {
-        super(httpClient);
-    }
-}
-@Injectable()
-class MultiRouteCustomerProvider extends CrudDataProvider<Customer, CustomerFilter> {
-    api = '/api';
-    routes = ['region', 'customers'];
-
-    constructor(httpClient: HttpClient) {
-        super(httpClient);
-    }
-}
+import { Customer, CustomerFilter, CustomerProvider, MultiRouteCustomerProvider } from './customer-provider.spec';
 
 
 describe('CrudDataProvider', () => {
