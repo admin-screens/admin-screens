@@ -7,7 +7,7 @@ addons:
 
 branches:
   only:
-    - master
+    - main
 
 before_script:
   - npm install -g yarn
