@@ -1,0 +1,19 @@
+language: node_js
+
+sudo: true
+
+addons:
+  chrome: stable
+
+branches:
+  only:
+    - master
+
+before_script:
+  - npm install -g yarn
+  - npm install -g @angular/cli
+  - yarn install
+
+script:
+  - ng lint
+  - yarn run test-headless
