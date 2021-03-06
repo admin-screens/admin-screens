@@ -1,4 +1,6 @@
 language: node_js
+node_js:
+  - 12
 
 sudo: true
 
@@ -15,5 +17,6 @@ before_script:
   - yarn install
 
 script:
+  - ng build
   - ng lint
   - yarn run test-headless
