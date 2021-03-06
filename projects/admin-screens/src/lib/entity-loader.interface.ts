@@ -15,9 +15,9 @@ export interface EntityLoader<TEntity, TEntityFilter> {
     filter: Observable<TEntityFilter>;
     records: Observable<TEntity[]>;
 
-    updateFilter(filter: TEntityFilter);
-    updatePage(page: number);
-    updatePageSize(pageSize: number);
-    updateSort(sort: SortDefinition);
-    update(state: PageSelection)
+    updateFilter(filter: TEntityFilter): void;
+    updatePage(page: number): void;
+    updatePageSize(pageSize: number): void;
+    updateSort(sort: SortDefinition): void;
+    update(state: PageSelection): void;
 }

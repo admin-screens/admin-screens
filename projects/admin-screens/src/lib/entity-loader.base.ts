@@ -27,17 +27,17 @@ export class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>
         private dataProvider: CrudDataProvider<T, TFilter>
     ) { }
 
-    protected reload() {
+    protected reload(): void {
         this.loadPage(this.sort.value, this.page.value * this.pageSize.value, this.pageSize.value, this.filter.value);
     }
 
-    protected loadPage(sort: SortDefinition, skip: number, take: number, filter: TFilter) {
+    protected loadPage(sort: SortDefinition, skip: number, take: number, filter: TFilter): void {
         this.loadingState.next(ClrLoadingState.LOADING);
         this.dataProvider.search({
-            sort: sort,
-            skip: skip,
-            take: take,
-            filter: filter
+            sort,
+            skip,
+            take,
+            filter
         }).subscribe(page => {
             this.records.next(page.data);
             this.totalRecords.next(page.total);
@@ -45,30 +45,30 @@ export class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>
             this.loadingState.next(ClrLoadingState.SUCCESS);
         }, () => {
             this.loadingState.next(ClrLoadingState.ERROR);
-        })
+        });
     }
 
-    updateFilter(filter: TFilter) {
+    updateFilter(filter: TFilter): void {
         this.filter.next(filter);
         this.reload();
     }
 
-    updatePage(page: number) {
+    updatePage(page: number): void {
         this.page.next(page);
         this.reload();
     }
 
-    updatePageSize(pageSize: number) {
+    updatePageSize(pageSize: number): void {
         this.pageSize.next(pageSize);
         this.reload();
     }
 
-    updateSort(sort: SortDefinition) {
+    updateSort(sort: SortDefinition): void {
         this.sort.next(sort);
         this.reload();
     }
 
-    update(state: PageSelection) {
+    update(state: PageSelection): void {
         this.page.next(state.page);
         this.pageSize.next(state.pageSize);
 

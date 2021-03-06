@@ -6,11 +6,12 @@ import { CrudDataProvider } from './crud-data-provider.base';
 import { EntityLoaderBase } from './entity-loader.base';
 import { FilterModel } from './filter.model';
 import { HasId } from './has-id.model';
+import { PageSelection } from './paged-list/page-selection.model';
 import { SortDefinition } from './sort-definition.model';
 
 @Injectable()
 export class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel>
-    extends EntityLoaderBase<T, TFilter> implements OnInit, OnDestroy {
+    extends EntityLoaderBase<T, TFilter> implements OnDestroy {
 
     private filterPrefix = 'filter.';
     private routeSubscription: Subscription;
@@ -21,15 +22,16 @@ export class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel
         crudDataProvider: CrudDataProvider<T, TFilter>
     ) {
         super(crudDataProvider);
+        this.init();
     }
 
-    ngOnInit() {
+    init(): void {
         this.routeSubscription = this.activatedRoute.queryParams.subscribe(
             p => this.updateFromParams(p)
         );
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.routeSubscription) {
             this.routeSubscription.unsubscribe();
         }
@@ -53,8 +55,8 @@ export class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel
         }
         if ('sortColumn' in p || 'sortDirection' in p) {
             const sort: SortDefinition = {
-                column: 'sortColumn' in p ? p['sortColumn'] : null,
-                direction: 'sortDirection' in p ? parseInt(p['sortDirection'], 10) : ClrDatagridSortOrder.UNSORTED
+                column: 'sortColumn' in p ? p.sortColumn : null,
+                direction: 'sortDirection' in p ? parseInt(p.sortDirection, 10) : ClrDatagridSortOrder.UNSORTED
             };
             if (sort.column !== this.sort.value?.column ||
                 sort.direction !== this.sort.value?.direction) {
@@ -67,8 +69,8 @@ export class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel
         }
 
         let filterChanged = false;
-        let filter = this.filter.value;
-        let newFilter = {};
+        const filter = this.filter.value;
+        const newFilter = {};
         for (const key in p) {
             if (Object.prototype.hasOwnProperty.call(p, key) && key.startsWith(this.filterPrefix)) {
                 const element = p[key];
@@ -88,8 +90,8 @@ export class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel
         }
     }
 
-    updateFilter(filter: TFilter) {
-        let filterQueryParams = {}
+    updateFilter(filter: TFilter): void {
+        const filterQueryParams = {};
 
         for (const key in filter) {
             if (Object.prototype.hasOwnProperty.call(filter, key)) {
@@ -109,27 +111,27 @@ export class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel
         });
     }
 
-    updatePage(page: number) {
+    updatePage(page: number): void {
         this.router.navigate([], {
             relativeTo: this.activatedRoute,
             queryParamsHandling: 'merge',
             queryParams: {
-                page: page
+                page
             }
         });
     }
 
-    updatePageSize(pageSize: number) {
+    updatePageSize(pageSize: number): void {
         this.router.navigate([], {
             relativeTo: this.activatedRoute,
             queryParamsHandling: 'merge',
             queryParams: {
-                pageSize: pageSize
+                pageSize
             }
         });
     }
 
-    updateSort(sort: SortDefinition) {
+    updateSort(sort: SortDefinition): void {
         if (!sort) {
             this.router.navigate([], {
                 relativeTo: this.activatedRoute,
@@ -151,14 +153,14 @@ export class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel
         }
     }
 
-    update(state: ClrDatagridStateInterface) {
+    update(state: PageSelection): void {
         const params = {
-            page: state.page.current,
-            pageSize: state.page.size,
-            sortColumn: state.sort?.by,
-            sortDirection: state.sort?.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC
+            page: state.page,
+            pageSize: state.pageSize,
+            sortColumn: state.sortColumn,
+            sortDirection: state.sortDirection
         };
-        if (!state.sort) {
+        if (!state.sortColumn) {
             delete params.sortColumn;
             delete params.sortDirection;
         }

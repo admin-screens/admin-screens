@@ -47,20 +47,20 @@ export class PagedListComponent<T extends HasId> implements OnInit {
     /**
      * Total amount of records. In case of server side paging, this is the amount of records on the server matching the filters.
      */
-    @Input() total: number = 0;
+    @Input() total = 0;
     /**
      * Current selected page, starting at 0.
      */
-    @Input() currentPage: number = 0;
+    @Input() currentPage = 0;
     /**
      * The number of records in this page.
      */
-    @Input() pageSize: number = 10;
+    @Input() pageSize = 10;
     /**
      * The column to sort by.
      */
     @Input() sortColumn: string;
-    /** 
+    /**
      * The direction to sort by
      */
     @Input() sortDirection: ClrDatagridSortOrder;
@@ -73,7 +73,7 @@ export class PagedListComponent<T extends HasId> implements OnInit {
     ngOnInit(): void {
     }
 
-    propertyValue(column: Column<T>, record: T) {
+    propertyValue(column: Column<T>, record: T): string {
         if (column.propertyExpression) {
             return column.propertyExpression(record);
         } else {
@@ -81,12 +81,11 @@ export class PagedListComponent<T extends HasId> implements OnInit {
         }
     }
 
-    formatObject(column: Column<T>, label: any) {
+    formatObject(column: Column<T>, label: any): string {
         return column.subPropertyExpression(label);
     }
 
-    refreshDataGrid(state: ClrDatagridStateInterface) {
-        console.info('grid state changed', state);
+    refreshDataGrid(state: ClrDatagridStateInterface): void {
         if (!this.firstEventIgnored) {
             this.firstEventIgnored = true;
         } else {

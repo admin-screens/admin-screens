@@ -23,10 +23,10 @@ export abstract class CrudDataProvider<T extends HasId, TFilter extends FilterMo
         };
 
         if (filter.sort) {
-            requestParams['sortColumn'] = filter.sort.column;
+            requestParams.sortColumn = filter.sort.column;
 
             if (filter.sort.direction !== ClrDatagridSortOrder.UNSORTED) {
-                requestParams['sortDirection'] = filter.sort.direction;
+                requestParams.sortDirection = filter.sort.direction;
             }
         }
 
@@ -76,7 +76,7 @@ export abstract class CrudDataProvider<T extends HasId, TFilter extends FilterMo
         return this.httpClient.get<Page<T>>(url);
     }
 
-    protected getBaseUrl(parentIds: string[] = null) {
+    protected getBaseUrl(parentIds: string[] = null): string {
         this.verifyParentIds(parentIds);
         let url = `${this.api}`;
         for (let index = 0; index < this.routes.length; index++) {
@@ -90,7 +90,7 @@ export abstract class CrudDataProvider<T extends HasId, TFilter extends FilterMo
         return url;
     }
 
-    private verifyParentIds(parentIds: string[]) {
+    private verifyParentIds(parentIds: string[]): void {
         if (this.routes.length > 1 && (
             !parentIds || parentIds.length !== this.routes.length - 1
         )) {

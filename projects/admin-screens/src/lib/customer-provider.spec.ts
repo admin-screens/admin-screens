@@ -5,8 +5,10 @@ import { HasId } from './has-id.model';
 import { FilterModel } from './filter.model';
 
 export interface Customer extends HasId {
+    name: string;
 }
 export interface CustomerFilter extends FilterModel {
+    status: string;
 }
 
 @Injectable()
