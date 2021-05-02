@@ -1,0 +1,14 @@
+<div class="clr-row clr-align-items-center clr-justify-content-between title-wrapper" (click)="toggle()"
+    [class.toggle-title]="hasToggle">
+    <div class="clr-col-auto">
+        <span class="title">
+            {{ title }}
+        </span>
+    </div>
+    <div class="clr-col-auto">
+        <ng-container *ngIf="hasToggle">
+            <clr-icon *ngIf="toggled" class="toggle-icon" shape="caret" dir="up"></clr-icon>
+            <clr-icon *ngIf="!toggled" class="toggle-icon" shape="caret" dir="down"></clr-icon>
+        </ng-container>
+    </div>
+</div>

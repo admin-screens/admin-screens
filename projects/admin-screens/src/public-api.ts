@@ -15,3 +15,4 @@ export * from './lib/paging-params.model';
 export * from './lib/route-state-entity-loader';
 export * from './lib/sort-definition.model';
 export * from './lib/paged-list/paged-list.component';
+export * from './lib/section-title/section-title.component';

@@ -1,0 +1,24 @@
+.title {
+    color: var(--clr-color-on-action-600);
+    padding: 0rem 0.4rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+}
+.toggle-title:hover {
+    cursor: pointer;
+}
+.title-wrapper {
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: var(--clr-color-action-600);
+}
+.toggle-button {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+}
+.toggle-icon {
+    color: var(--clr-color-on-action-600) !important;
+}

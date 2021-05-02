@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ClrDatagridSortOrder, ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';
 import { ActionTypeEnum } from '../action-type.enum';
+import { Action } from '../action.model';
 import { ButtonBarAction } from '../button-bar-action.model';
 import { ColumnDataVisualizationType } from '../column-data-visualization-type.enum';
 import { Column } from '../column.model';
@@ -20,6 +21,10 @@ export class PagedListComponent<T extends HasId> implements OnInit {
 
     private firstEventIgnored = false;
 
+    /**
+     * The pluralized name of the entity, shown in the pager.
+     */
+    @Input() entityPluralName = 'entities';
     /**
      * Indicates is the data is loading or refreshing.
      */
@@ -64,13 +69,18 @@ export class PagedListComponent<T extends HasId> implements OnInit {
      * The direction to sort by
      */
     @Input() sortDirection: ClrDatagridSortOrder;
+    /**
+     * An update occured to the grid configuration.
+     */
     @Output() update = new EventEmitter<PageSelection>();
 
     selectedRecords: T[] = [];
+    
 
     constructor() { }
 
     ngOnInit(): void {
+        // Todo: Validate input configuration
     }
 
     propertyValue(column: Column<T>, record: T): string {
@@ -96,5 +106,15 @@ export class PagedListComponent<T extends HasId> implements OnInit {
                 sortDirection: state.sort?.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC
             });
         }
+    }
+
+    performAction(action: Action<T>, records: T[]): void {
+        action.state = ClrLoadingState.LOADING;
+        action.execute(records)
+            .subscribe(() => {
+                action.state = ClrLoadingState.SUCCESS;
+            }, () => {
+                action.state = ClrLoadingState.ERROR;
+            });
     }
 }

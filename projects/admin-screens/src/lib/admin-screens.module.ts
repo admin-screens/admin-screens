@@ -5,11 +5,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from '@clr/angular';
 import { PagedListComponent } from './paged-list/paged-list.component';
 import { FilterContainerComponent } from './filter-container/filter-container.component';
+import { SectionTitleComponent } from './section-title/section-title.component';
 
 
 
 @NgModule({
-    declarations: [PagedListComponent, FilterContainerComponent],
+    declarations: [PagedListComponent, FilterContainerComponent, SectionTitleComponent],
     imports: [
         ClarityModule,
         FormsModule,

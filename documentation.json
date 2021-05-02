@@ -3,45 +3,80 @@
     "interfaces": [
         {
             "name": "Action",
-            "id": "interface-Action-f583c9b3cdc3b9cc6bc4ddc969785a91",
+            "id": "interface-Action-7057ffb887ffa15d830ae065fd4cca78",
             "file": "projects/admin-screens/src/lib/action.model.ts",
             "type": "interface",
-            "sourceCode": "import { ActionTypeEnum } from './action-type.enum';\r\n\r\nexport interface Action<T> {\r\n    type: ActionTypeEnum;\r\n    href?: (record: T) => string;\r\n    routerLink?: (record: T) => string[];\r\n    routerQueryParams?: (record: T) => any;\r\n    execute?: (records: T[]) => void;\r\n}\r\n",
+            "sourceCode": "import { ClrLoadingState } from '@clr/angular';\r\nimport { Observable } from 'rxjs';\r\nimport { ActionTypeEnum } from './action-type.enum';\r\n\r\nexport interface Action<T> {\r\n    type: ActionTypeEnum;\r\n    href?: (record: T) => string;\r\n    routerLink?: string[];\r\n    routerQueryParams?: any;\r\n    recordRouterLink?: (record: T) => string[];\r\n    recordRouterQueryParams?: (record: T) => any;\r\n    execute?: (records: T[]) => Observable<void>;\r\n    classes: string[];\r\n    badgeClasses: string[];\r\n\r\n    state: ClrLoadingState;\r\n}\r\n",
             "properties": [
+                {
+                    "name": "badgeClasses",
+                    "type": "string[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 14
+                },
+                {
+                    "name": "classes",
+                    "type": "string[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
                 {
                     "name": "execute",
                     "type": "function",
                     "optional": true,
                     "description": "",
-                    "line": 8
+                    "line": 12
                 },
                 {
                     "name": "href",
                     "type": "function",
                     "optional": true,
                     "description": "",
-                    "line": 5
+                    "line": 7
+                },
+                {
+                    "name": "recordRouterLink",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "recordRouterQueryParams",
+                    "type": "function",
+                    "optional": true,
+                    "description": "",
+                    "line": 11
                 },
                 {
                     "name": "routerLink",
-                    "type": "function",
+                    "type": "string[]",
                     "optional": true,
                     "description": "",
-                    "line": 6
+                    "line": 8
                 },
                 {
                     "name": "routerQueryParams",
-                    "type": "function",
+                    "type": "any",
                     "optional": true,
                     "description": "",
-                    "line": 7
+                    "line": 9
+                },
+                {
+                    "name": "state",
+                    "type": "ClrLoadingState",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
                 },
                 {
                     "name": "type",
                     "type": "ActionTypeEnum",
                     "optional": false,
                     "description": "",
-                    "line": 4
+                    "line": 6
                 }
             ],
             "indexSignatures": [],
@@ -159,66 +194,66 @@
         },
         {
             "name": "EntityLoader",
-            "id": "interface-EntityLoader-5f9c251ed5591dc3309816ddcbccb628",
+            "id": "interface-EntityLoader-046eb32ba917969ff76850fbeb4c2a7f",
             "file": "projects/admin-screens/src/lib/entity-loader.interface.ts",
             "type": "interface",
-            "sourceCode": "import { SortDefinition } from './sort-definition.model';\r\nimport { Observable } from 'rxjs';\r\nimport { ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';\r\n\r\n\r\nexport interface EntityLoader<TEntity, TEntityFilter> {\r\n    loadingState: ClrLoadingState;\r\n    totalRecords: Observable<number>;\r\n    totalPages: Observable<number>;\r\n\r\n    sort: Observable<SortDefinition>;\r\n    page: Observable<number>;\r\n    pageSize: Observable<number>;\r\n    filter: Observable<TEntityFilter>;\r\n    records: Observable<TEntity[]>;\r\n\r\n    updateFilter(filter: TEntityFilter);\r\n    updatePage(page: number);\r\n    updatePageSize(pageSize: number);\r\n    updateSort(sort: SortDefinition);\r\n    update(dataGridState: ClrDatagridStateInterface)\r\n}\r\n",
+            "sourceCode": "import { SortDefinition } from './sort-definition.model';\r\nimport { Observable } from 'rxjs';\r\nimport { ClrLoadingState } from '@clr/angular';\r\nimport { PageSelection } from './paged-list/page-selection.model';\r\n\r\n\r\nexport interface EntityLoader<TEntity, TEntityFilter> {\r\n    loadingState: Observable<ClrLoadingState>;\r\n    totalRecords: Observable<number>;\r\n    totalPages: Observable<number>;\r\n\r\n    sort: Observable<SortDefinition>;\r\n    page: Observable<number>;\r\n    pageSize: Observable<number>;\r\n    filter: Observable<TEntityFilter>;\r\n    records: Observable<TEntity[]>;\r\n\r\n    updateFilter(filter: TEntityFilter): void;\r\n    updatePage(page: number): void;\r\n    updatePageSize(pageSize: number): void;\r\n    updateSort(sort: SortDefinition): void;\r\n    update(state: PageSelection): void;\r\n}\r\n",
             "properties": [
                 {
                     "name": "filter",
                     "type": "Observable<TEntityFilter>",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 15
                 },
                 {
                     "name": "loadingState",
-                    "type": "ClrLoadingState",
+                    "type": "Observable<ClrLoadingState>",
                     "optional": false,
                     "description": "",
-                    "line": 7
+                    "line": 8
                 },
                 {
                     "name": "page",
                     "type": "Observable<number>",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 13
                 },
                 {
                     "name": "pageSize",
                     "type": "Observable<number>",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 14
                 },
                 {
                     "name": "records",
                     "type": "Observable<TEntity[]>",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 16
                 },
                 {
                     "name": "sort",
                     "type": "Observable<SortDefinition>",
                     "optional": false,
                     "description": "",
-                    "line": 11
+                    "line": 12
                 },
                 {
                     "name": "totalPages",
                     "type": "Observable<number>",
                     "optional": false,
                     "description": "",
-                    "line": 9
+                    "line": 10
                 },
                 {
                     "name": "totalRecords",
                     "type": "Observable<number>",
                     "optional": false,
                     "description": "",
-                    "line": 8
+                    "line": 9
                 }
             ],
             "indexSignatures": [],
@@ -228,18 +263,18 @@
                     "name": "update",
                     "args": [
                         {
-                            "name": "dataGridState",
-                            "type": "ClrDatagridStateInterface"
+                            "name": "state",
+                            "type": "PageSelection"
                         }
                     ],
                     "optional": false,
-                    "returnType": "any",
+                    "returnType": "void",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 22,
                     "jsdoctags": [
                         {
-                            "name": "dataGridState",
-                            "type": "ClrDatagridStateInterface",
+                            "name": "state",
+                            "type": "PageSelection",
                             "tagName": {
                                 "text": "param"
                             }
@@ -255,9 +290,9 @@
                         }
                     ],
                     "optional": false,
-                    "returnType": "any",
+                    "returnType": "void",
                     "typeParameters": [],
-                    "line": 17,
+                    "line": 18,
                     "jsdoctags": [
                         {
                             "name": "filter",
@@ -277,9 +312,9 @@
                         }
                     ],
                     "optional": false,
-                    "returnType": "any",
+                    "returnType": "void",
                     "typeParameters": [],
-                    "line": 18,
+                    "line": 19,
                     "jsdoctags": [
                         {
                             "name": "page",
@@ -299,9 +334,9 @@
                         }
                     ],
                     "optional": false,
-                    "returnType": "any",
+                    "returnType": "void",
                     "typeParameters": [],
-                    "line": 19,
+                    "line": 20,
                     "jsdoctags": [
                         {
                             "name": "pageSize",
@@ -321,9 +356,9 @@
                         }
                     ],
                     "optional": false,
-                    "returnType": "any",
+                    "returnType": "void",
                     "typeParameters": [],
-                    "line": 20,
+                    "line": 21,
                     "jsdoctags": [
                         {
                             "name": "sort",
@@ -357,10 +392,10 @@
         },
         {
             "name": "GridAction",
-            "id": "interface-GridAction-388ac912a2d191831769a4493396e8b4",
+            "id": "interface-GridAction-9e8064634320c24dfb2cae9e9dfc8456",
             "file": "projects/admin-screens/src/lib/grid-action.model.ts",
             "type": "interface",
-            "sourceCode": "import { Action } from './action.model';\r\n\r\nexport interface GridAction<T> extends Action<T> {\r\n    label: (record: T) => string;\r\n    href?: (record: T) => string;\r\n    routerLink?: (record: T) => string[];\r\n}\r\n",
+            "sourceCode": "import { Action } from './action.model';\r\n\r\nexport interface GridAction<T> extends Action<T> {\r\n    label: (record: T) => string;\r\n    href?: (record: T) => string;\r\n}\r\n",
             "properties": [
                 {
                     "name": "href",
@@ -375,13 +410,6 @@
                     "optional": false,
                     "description": "",
                     "line": 4
-                },
-                {
-                    "name": "routerLink",
-                    "type": "function",
-                    "optional": true,
-                    "description": "",
-                    "line": 6
                 }
             ],
             "indexSignatures": [],
@@ -428,6 +456,46 @@
                     "optional": false,
                     "description": "",
                     "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 150,
+            "methods": []
+        },
+        {
+            "name": "PageSelection",
+            "id": "interface-PageSelection-92bd4587c56d86bf57bfb682e60a8a91",
+            "file": "projects/admin-screens/src/lib/paged-list/page-selection.model.ts",
+            "type": "interface",
+            "sourceCode": "import { ClrDatagridSortOrder } from '@clr/angular';\r\n\r\nexport interface PageSelection {\r\n    page: number;\r\n    pageSize: number;\r\n    sortColumn: string;\r\n    sortDirection: ClrDatagridSortOrder;\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "page",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "pageSize",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "sortColumn",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "sortDirection",
+                    "type": "ClrDatagridSortOrder",
+                    "optional": false,
+                    "description": "",
+                    "line": 7
                 }
             ],
             "indexSignatures": [],
@@ -504,7 +572,7 @@
     "injectables": [
         {
             "name": "EntityLoaderBase",
-            "id": "injectable-EntityLoaderBase-270fa3fc28ae0e34f1bc47c38f1353d1",
+            "id": "injectable-EntityLoaderBase-9c29f4a126d1b92c0c1127f5ab3f5006",
             "file": "projects/admin-screens/src/lib/entity-loader.base.ts",
             "properties": [
                 {
@@ -513,15 +581,15 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 22
+                    "line": 23
                 },
                 {
                     "name": "loadingState",
-                    "defaultValue": "ClrLoadingState.DEFAULT",
+                    "defaultValue": "new BehaviorSubject(ClrLoadingState.DEFAULT)",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 16
                 },
                 {
                     "name": "page",
@@ -529,7 +597,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 20
+                    "line": 21
                 },
                 {
                     "name": "pageSize",
@@ -537,7 +605,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 21
+                    "line": 22
                 },
                 {
                     "name": "records",
@@ -545,7 +613,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 23
+                    "line": 24
                 },
                 {
                     "name": "sort",
@@ -553,7 +621,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 19
+                    "line": 20
                 },
                 {
                     "name": "totalPages",
@@ -561,7 +629,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 18
                 },
                 {
                     "name": "totalRecords",
@@ -569,7 +637,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 17
                 }
             ],
             "methods": [
@@ -596,7 +664,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 33,
+                    "line": 34,
                     "modifierKind": [
                         113
                     ],
@@ -637,7 +705,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 29,
+                    "line": 30,
                     "modifierKind": [
                         113
                     ]
@@ -647,17 +715,17 @@
                     "args": [
                         {
                             "name": "state",
-                            "type": "ClrDatagridStateInterface"
+                            "type": "PageSelection"
                         }
                     ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 70,
+                    "line": 71,
                     "jsdoctags": [
                         {
                             "name": "state",
-                            "type": "ClrDatagridStateInterface",
+                            "type": "PageSelection",
                             "tagName": {
                                 "text": "param"
                             }
@@ -675,7 +743,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 50,
+                    "line": 51,
                     "jsdoctags": [
                         {
                             "name": "filter",
@@ -697,7 +765,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 55,
+                    "line": 56,
                     "jsdoctags": [
                         {
                             "name": "page",
@@ -719,7 +787,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 60,
+                    "line": 61,
                     "jsdoctags": [
                         {
                             "name": "pageSize",
@@ -741,7 +809,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 65,
+                    "line": 66,
                     "jsdoctags": [
                         {
                             "name": "sort",
@@ -754,7 +822,7 @@
                 }
             ],
             "description": "",
-            "sourceCode": "import { CrudDataProvider } from './crud-data-provider.base';\r\nimport { FilterModel } from './filter.model';\r\nimport { HasId } from './has-id.model';\r\nimport { EntityLoader } from './entity-loader.interface';\r\nimport { BehaviorSubject } from 'rxjs';\r\nimport { SortDefinition } from './sort-definition.model';\r\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';\r\nimport { Injectable } from '@angular/core';\r\n\r\n\r\n@Injectable()\r\nexport class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>\r\n    implements EntityLoader<T, TFilter> {\r\n\r\n    loadingState = ClrLoadingState.DEFAULT;\r\n    totalRecords = new BehaviorSubject(0);\r\n    totalPages = new BehaviorSubject(0);\r\n\r\n    sort = new BehaviorSubject(null);\r\n    page = new BehaviorSubject(0);\r\n    pageSize = new BehaviorSubject(10);\r\n    filter = new BehaviorSubject(null);\r\n    records = new BehaviorSubject([]);\r\n\r\n    constructor(\r\n        private dataProvider: CrudDataProvider<T, TFilter>\r\n    ) { }\r\n\r\n    protected reload() {\r\n        this.loadPage(this.sort.value, this.page.value * this.pageSize.value, this.pageSize.value, this.filter.value);\r\n    }\r\n\r\n    protected loadPage(sort: SortDefinition, skip: number, take: number, filter: TFilter) {\r\n        this.loadingState = ClrLoadingState.LOADING;\r\n        this.dataProvider.search({\r\n            sort: sort,\r\n            skip: skip,\r\n            take: take,\r\n            filter: filter\r\n        }).subscribe(page => {\r\n            this.records.next(page.data);\r\n            this.totalRecords.next(page.total);\r\n            this.totalPages.next(Math.ceil(page.total / this.pageSize.value));\r\n            this.loadingState = ClrLoadingState.SUCCESS;\r\n        }, () => {\r\n            this.loadingState = ClrLoadingState.ERROR;\r\n        })\r\n    }\r\n\r\n    updateFilter(filter: TFilter) {\r\n        this.filter.next(filter);\r\n        this.reload();\r\n    }\r\n\r\n    updatePage(page: number) {\r\n        this.page.next(page);\r\n        this.reload();\r\n    }\r\n\r\n    updatePageSize(pageSize: number) {\r\n        this.pageSize.next(pageSize);\r\n        this.reload();\r\n    }\r\n\r\n    updateSort(sort: SortDefinition) {\r\n        this.sort.next(sort);\r\n        this.reload();\r\n    }\r\n\r\n    update(state: ClrDatagridStateInterface) {\r\n        this.page.next(state.page.current);\r\n        this.pageSize.next(state.page.size);\r\n\r\n        if (state.sort) {\r\n            this.sort.next({\r\n                column: state.sort.by,\r\n                direction: state.sort.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC\r\n            });\r\n        }\r\n        this.reload();\r\n    }\r\n}\r\n",
+            "sourceCode": "import { CrudDataProvider } from './crud-data-provider.base';\r\nimport { FilterModel } from './filter.model';\r\nimport { HasId } from './has-id.model';\r\nimport { EntityLoader } from './entity-loader.interface';\r\nimport { BehaviorSubject } from 'rxjs';\r\nimport { SortDefinition } from './sort-definition.model';\r\nimport { ClrLoadingState } from '@clr/angular';\r\nimport { Injectable } from '@angular/core';\r\nimport { PageSelection } from './paged-list/page-selection.model';\r\n\r\n\r\n@Injectable()\r\nexport class EntityLoaderBase<T extends HasId, TFilter extends FilterModel>\r\n    implements EntityLoader<T, TFilter> {\r\n\r\n    loadingState = new BehaviorSubject(ClrLoadingState.DEFAULT);\r\n    totalRecords = new BehaviorSubject(0);\r\n    totalPages = new BehaviorSubject(0);\r\n\r\n    sort = new BehaviorSubject(null);\r\n    page = new BehaviorSubject(0);\r\n    pageSize = new BehaviorSubject(10);\r\n    filter = new BehaviorSubject(null);\r\n    records = new BehaviorSubject([]);\r\n\r\n    constructor(\r\n        private dataProvider: CrudDataProvider<T, TFilter>\r\n    ) { }\r\n\r\n    protected reload(): void {\r\n        this.loadPage(this.sort.value, this.page.value * this.pageSize.value, this.pageSize.value, this.filter.value);\r\n    }\r\n\r\n    protected loadPage(sort: SortDefinition, skip: number, take: number, filter: TFilter): void {\r\n        this.loadingState.next(ClrLoadingState.LOADING);\r\n        this.dataProvider.search({\r\n            sort,\r\n            skip,\r\n            take,\r\n            filter\r\n        }).subscribe(page => {\r\n            this.records.next(page.data);\r\n            this.totalRecords.next(page.total);\r\n            this.totalPages.next(Math.ceil(page.total / this.pageSize.value));\r\n            this.loadingState.next(ClrLoadingState.SUCCESS);\r\n        }, () => {\r\n            this.loadingState.next(ClrLoadingState.ERROR);\r\n        });\r\n    }\r\n\r\n    updateFilter(filter: TFilter): void {\r\n        this.filter.next(filter);\r\n        this.reload();\r\n    }\r\n\r\n    updatePage(page: number): void {\r\n        this.page.next(page);\r\n        this.reload();\r\n    }\r\n\r\n    updatePageSize(pageSize: number): void {\r\n        this.pageSize.next(pageSize);\r\n        this.reload();\r\n    }\r\n\r\n    updateSort(sort: SortDefinition): void {\r\n        this.sort.next(sort);\r\n        this.reload();\r\n    }\r\n\r\n    update(state: PageSelection): void {\r\n        this.page.next(state.page);\r\n        this.pageSize.next(state.pageSize);\r\n\r\n        if (state.sortColumn) {\r\n            this.sort.next({\r\n                column: state.sortColumn,\r\n                direction: state.sortDirection\r\n            });\r\n        }\r\n        this.reload();\r\n    }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -764,7 +832,7 @@
                         "type": "CrudDataProvider<T | TFilter>"
                     }
                 ],
-                "line": 23,
+                "line": 24,
                 "jsdoctags": [
                     {
                         "name": "dataProvider",
@@ -779,7 +847,7 @@
         },
         {
             "name": "RouteStateEntityLoader",
-            "id": "injectable-RouteStateEntityLoader-fb4287002a72f6b8262af2c937fe8190",
+            "id": "injectable-RouteStateEntityLoader-f9d5848022aa91a03216019abc602e03",
             "file": "projects/admin-screens/src/lib/route-state-entity-loader.ts",
             "properties": [
                 {
@@ -788,7 +856,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 15,
+                    "line": 16,
                     "modifierKind": [
                         112
                     ]
@@ -798,7 +866,7 @@
                     "type": "Subscription",
                     "optional": false,
                     "description": "",
-                    "line": 16,
+                    "line": 17,
                     "modifierKind": [
                         112
                     ]
@@ -809,18 +877,18 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 22,
+                    "line": 23,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
                 },
                 {
                     "name": "loadingState",
-                    "defaultValue": "ClrLoadingState.DEFAULT",
+                    "defaultValue": "new BehaviorSubject(ClrLoadingState.DEFAULT)",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 15,
+                    "line": 16,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
@@ -831,7 +899,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 20,
+                    "line": 21,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
@@ -842,7 +910,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 21,
+                    "line": 22,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
@@ -853,7 +921,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 23,
+                    "line": 24,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
@@ -864,7 +932,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 19,
+                    "line": 20,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
@@ -875,7 +943,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17,
+                    "line": 18,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
@@ -886,7 +954,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16,
+                    "line": 17,
                     "inheritance": {
                         "file": "EntityLoaderBase"
                     }
@@ -894,37 +962,37 @@
             ],
             "methods": [
                 {
+                    "name": "init",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 28
+                },
+                {
                     "name": "ngOnDestroy",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 32
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 26
+                    "line": 34
                 },
                 {
                     "name": "update",
                     "args": [
                         {
                             "name": "state",
-                            "type": "ClrDatagridStateInterface"
+                            "type": "PageSelection"
                         }
                     ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 154,
+                    "line": 156,
                     "jsdoctags": [
                         {
                             "name": "state",
-                            "type": "ClrDatagridStateInterface",
+                            "type": "PageSelection",
                             "tagName": {
                                 "text": "param"
                             }
@@ -942,7 +1010,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 91,
+                    "line": 93,
                     "jsdoctags": [
                         {
                             "name": "filter",
@@ -964,7 +1032,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 38,
+                    "line": 40,
                     "jsdoctags": [
                         {
                             "name": "p",
@@ -986,7 +1054,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 112,
+                    "line": 114,
                     "jsdoctags": [
                         {
                             "name": "page",
@@ -1008,7 +1076,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 122,
+                    "line": 124,
                     "jsdoctags": [
                         {
                             "name": "pageSize",
@@ -1030,7 +1098,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 132,
+                    "line": 134,
                     "jsdoctags": [
                         {
                             "name": "sort",
@@ -1064,7 +1132,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 33,
+                    "line": 34,
                     "modifierKind": [
                         113
                     ],
@@ -1108,7 +1176,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 29,
+                    "line": 30,
                     "modifierKind": [
                         113
                     ],
@@ -1121,17 +1189,17 @@
                     "args": [
                         {
                             "name": "state",
-                            "type": "ClrDatagridStateInterface"
+                            "type": "PageSelection"
                         }
                     ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 70,
+                    "line": 71,
                     "jsdoctags": [
                         {
                             "name": "state",
-                            "type": "ClrDatagridStateInterface",
+                            "type": "PageSelection",
                             "tagName": {
                                 "text": "param"
                             }
@@ -1152,7 +1220,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 50,
+                    "line": 51,
                     "jsdoctags": [
                         {
                             "name": "filter",
@@ -1177,7 +1245,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 55,
+                    "line": 56,
                     "jsdoctags": [
                         {
                             "name": "page",
@@ -1202,7 +1270,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 60,
+                    "line": 61,
                     "jsdoctags": [
                         {
                             "name": "pageSize",
@@ -1227,7 +1295,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 65,
+                    "line": 66,
                     "jsdoctags": [
                         {
                             "name": "sort",
@@ -1243,7 +1311,7 @@
                 }
             ],
             "description": "",
-            "sourceCode": "import { Injectable, OnDestroy, OnInit } from '@angular/core';\r\nimport { ActivatedRoute, Params, Router } from '@angular/router';\r\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';\r\nimport { Subscription } from 'rxjs';\r\nimport { CrudDataProvider } from './crud-data-provider.base';\r\nimport { EntityLoaderBase } from './entity-loader.base';\r\nimport { FilterModel } from './filter.model';\r\nimport { HasId } from './has-id.model';\r\nimport { SortDefinition } from './sort-definition.model';\r\n\r\n@Injectable()\r\nexport class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel>\r\n    extends EntityLoaderBase<T, TFilter> implements OnInit, OnDestroy {\r\n\r\n    private filterPrefix = 'filter.';\r\n    private routeSubscription: Subscription;\r\n\r\n    constructor(\r\n        private router: Router,\r\n        private activatedRoute: ActivatedRoute,\r\n        crudDataProvider: CrudDataProvider<T, TFilter>\r\n    ) {\r\n        super(crudDataProvider);\r\n    }\r\n\r\n    ngOnInit() {\r\n        this.routeSubscription = this.activatedRoute.queryParams.subscribe(\r\n            p => this.updateFromParams(p)\r\n        );\r\n    }\r\n\r\n    ngOnDestroy() {\r\n        if (this.routeSubscription) {\r\n            this.routeSubscription.unsubscribe();\r\n        }\r\n    }\r\n\r\n    updateFromParams(p: Params): void {\r\n        let shouldReload = false;\r\n        if ('page' in p) {\r\n            const page = parseInt(p.page, 10);\r\n            if (page !== this.page.value) {\r\n                shouldReload = true;\r\n                this.page.next(page);\r\n            }\r\n        }\r\n        if ('pageSize' in p) {\r\n            const pageSize = parseInt(p.page, 10);\r\n            if (pageSize !== this.pageSize.value) {\r\n                shouldReload = true;\r\n                this.pageSize.next(pageSize);\r\n            }\r\n        }\r\n        if ('sortColumn' in p || 'sortDirection' in p) {\r\n            const sort: SortDefinition = {\r\n                column: 'sortColumn' in p ? p['sortColumn'] : null,\r\n                direction: 'sortDirection' in p ? parseInt(p['sortDirection'], 10) : ClrDatagridSortOrder.UNSORTED\r\n            };\r\n            if (sort.column !== this.sort.value?.column ||\r\n                sort.direction !== this.sort.value?.direction) {\r\n                shouldReload = true;\r\n                this.sort.next(sort);\r\n            }\r\n        } else if (this.sort.value !== null) {\r\n            shouldReload = true;\r\n            this.sort.next(null);\r\n        }\r\n\r\n        let filterChanged = false;\r\n        let filter = this.filter.value;\r\n        let newFilter = {};\r\n        for (const key in p) {\r\n            if (Object.prototype.hasOwnProperty.call(p, key) && key.startsWith(this.filterPrefix)) {\r\n                const element = p[key];\r\n                const filterKey = key.substr(this.filterPrefix.length);\r\n                newFilter[filterKey] = element;\r\n\r\n                const existingElement = (filter && filterKey in filter) ? filter[filterKey] : null;\r\n                if (element !== existingElement) {\r\n                    filterChanged = true;\r\n                }\r\n            }\r\n        }\r\n        shouldReload = shouldReload || filterChanged;\r\n\r\n        if (shouldReload) {\r\n            this.reload();\r\n        }\r\n    }\r\n\r\n    updateFilter(filter: TFilter) {\r\n        let filterQueryParams = {}\r\n\r\n        for (const key in filter) {\r\n            if (Object.prototype.hasOwnProperty.call(filter, key)) {\r\n                const element = filter[key];\r\n                if (element !== null && element !== undefined) {\r\n                    filterQueryParams[this.filterPrefix + key] = element;\r\n                }\r\n            }\r\n        }\r\n\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                filter: filterQueryParams\r\n            }\r\n        });\r\n    }\r\n\r\n    updatePage(page: number) {\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                page: page\r\n            }\r\n        });\r\n    }\r\n\r\n    updatePageSize(pageSize: number) {\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                pageSize: pageSize\r\n            }\r\n        });\r\n    }\r\n\r\n    updateSort(sort: SortDefinition) {\r\n        if (!sort) {\r\n            this.router.navigate([], {\r\n                relativeTo: this.activatedRoute,\r\n                queryParamsHandling: 'merge',\r\n                queryParams: {\r\n                    sortColumn: null,\r\n                    sortDirection: null\r\n                }\r\n            });\r\n        } else {\r\n            this.router.navigate([], {\r\n                relativeTo: this.activatedRoute,\r\n                queryParamsHandling: 'merge',\r\n                queryParams: {\r\n                    sortColumn: sort.column,\r\n                    sortDirection: sort.direction\r\n                }\r\n            });\r\n        }\r\n    }\r\n\r\n    update(state: ClrDatagridStateInterface) {\r\n        const params = {\r\n            page: state.page.current,\r\n            pageSize: state.page.size,\r\n            sortColumn: state.sort?.by,\r\n            sortDirection: state.sort?.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC\r\n        };\r\n        if (!state.sort) {\r\n            delete params.sortColumn;\r\n            delete params.sortDirection;\r\n        }\r\n        this.router.navigate(\r\n            [],\r\n            {\r\n                relativeTo: this.activatedRoute,\r\n                queryParams: params,\r\n                queryParamsHandling: 'merge'\r\n            });\r\n    }\r\n}\r\n",
+            "sourceCode": "import { Injectable, OnDestroy, OnInit } from '@angular/core';\r\nimport { ActivatedRoute, Params, Router } from '@angular/router';\r\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';\r\nimport { Subscription } from 'rxjs';\r\nimport { CrudDataProvider } from './crud-data-provider.base';\r\nimport { EntityLoaderBase } from './entity-loader.base';\r\nimport { FilterModel } from './filter.model';\r\nimport { HasId } from './has-id.model';\r\nimport { PageSelection } from './paged-list/page-selection.model';\r\nimport { SortDefinition } from './sort-definition.model';\r\n\r\n@Injectable()\r\nexport class RouteStateEntityLoader<T extends HasId, TFilter extends FilterModel>\r\n    extends EntityLoaderBase<T, TFilter> implements OnDestroy {\r\n\r\n    private filterPrefix = 'filter.';\r\n    private routeSubscription: Subscription;\r\n\r\n    constructor(\r\n        private router: Router,\r\n        private activatedRoute: ActivatedRoute,\r\n        crudDataProvider: CrudDataProvider<T, TFilter>\r\n    ) {\r\n        super(crudDataProvider);\r\n        this.init();\r\n    }\r\n\r\n    init(): void {\r\n        this.routeSubscription = this.activatedRoute.queryParams.subscribe(\r\n            p => this.updateFromParams(p)\r\n        );\r\n    }\r\n\r\n    ngOnDestroy(): void {\r\n        if (this.routeSubscription) {\r\n            this.routeSubscription.unsubscribe();\r\n        }\r\n    }\r\n\r\n    updateFromParams(p: Params): void {\r\n        let shouldReload = false;\r\n        if ('page' in p) {\r\n            const page = parseInt(p.page, 10);\r\n            if (page !== this.page.value) {\r\n                shouldReload = true;\r\n                this.page.next(page);\r\n            }\r\n        }\r\n        if ('pageSize' in p) {\r\n            const pageSize = parseInt(p.page, 10);\r\n            if (pageSize !== this.pageSize.value) {\r\n                shouldReload = true;\r\n                this.pageSize.next(pageSize);\r\n            }\r\n        }\r\n        if ('sortColumn' in p || 'sortDirection' in p) {\r\n            const sort: SortDefinition = {\r\n                column: 'sortColumn' in p ? p.sortColumn : null,\r\n                direction: 'sortDirection' in p ? parseInt(p.sortDirection, 10) : ClrDatagridSortOrder.UNSORTED\r\n            };\r\n            if (sort.column !== this.sort.value?.column ||\r\n                sort.direction !== this.sort.value?.direction) {\r\n                shouldReload = true;\r\n                this.sort.next(sort);\r\n            }\r\n        } else if (this.sort.value !== null) {\r\n            shouldReload = true;\r\n            this.sort.next(null);\r\n        }\r\n\r\n        let filterChanged = false;\r\n        const filter = this.filter.value;\r\n        const newFilter = {};\r\n        for (const key in p) {\r\n            if (Object.prototype.hasOwnProperty.call(p, key) && key.startsWith(this.filterPrefix)) {\r\n                const element = p[key];\r\n                const filterKey = key.substr(this.filterPrefix.length);\r\n                newFilter[filterKey] = element;\r\n\r\n                const existingElement = (filter && filterKey in filter) ? filter[filterKey] : null;\r\n                if (element !== existingElement) {\r\n                    filterChanged = true;\r\n                }\r\n            }\r\n        }\r\n        shouldReload = shouldReload || filterChanged;\r\n\r\n        if (shouldReload) {\r\n            this.reload();\r\n        }\r\n    }\r\n\r\n    updateFilter(filter: TFilter): void {\r\n        const filterQueryParams = {};\r\n\r\n        for (const key in filter) {\r\n            if (Object.prototype.hasOwnProperty.call(filter, key)) {\r\n                const element = filter[key];\r\n                if (element !== null && element !== undefined) {\r\n                    filterQueryParams[this.filterPrefix + key] = element;\r\n                }\r\n            }\r\n        }\r\n\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                filter: filterQueryParams\r\n            }\r\n        });\r\n    }\r\n\r\n    updatePage(page: number): void {\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                page\r\n            }\r\n        });\r\n    }\r\n\r\n    updatePageSize(pageSize: number): void {\r\n        this.router.navigate([], {\r\n            relativeTo: this.activatedRoute,\r\n            queryParamsHandling: 'merge',\r\n            queryParams: {\r\n                pageSize\r\n            }\r\n        });\r\n    }\r\n\r\n    updateSort(sort: SortDefinition): void {\r\n        if (!sort) {\r\n            this.router.navigate([], {\r\n                relativeTo: this.activatedRoute,\r\n                queryParamsHandling: 'merge',\r\n                queryParams: {\r\n                    sortColumn: null,\r\n                    sortDirection: null\r\n                }\r\n            });\r\n        } else {\r\n            this.router.navigate([], {\r\n                relativeTo: this.activatedRoute,\r\n                queryParamsHandling: 'merge',\r\n                queryParams: {\r\n                    sortColumn: sort.column,\r\n                    sortDirection: sort.direction\r\n                }\r\n            });\r\n        }\r\n    }\r\n\r\n    update(state: PageSelection): void {\r\n        const params = {\r\n            page: state.page,\r\n            pageSize: state.pageSize,\r\n            sortColumn: state.sortColumn,\r\n            sortDirection: state.sortDirection\r\n        };\r\n        if (!state.sortColumn) {\r\n            delete params.sortColumn;\r\n            delete params.sortDirection;\r\n        }\r\n        this.router.navigate(\r\n            [],\r\n            {\r\n                relativeTo: this.activatedRoute,\r\n                queryParams: params,\r\n                queryParamsHandling: 'merge'\r\n            });\r\n    }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1261,7 +1329,7 @@
                         "type": "CrudDataProvider<T | TFilter>"
                     }
                 ],
-                "line": 16,
+                "line": 17,
                 "jsdoctags": [
                     {
                         "name": "router",
@@ -1293,10 +1361,10 @@
     "classes": [
         {
             "name": "CrudDataProvider",
-            "id": "class-CrudDataProvider-12a05443e9fddbc9583331267c199f84",
+            "id": "class-CrudDataProvider-6cca6f1e1b177983b884dd94797f04b9",
             "file": "projects/admin-screens/src/lib/crud-data-provider.base.ts",
             "type": "class",
-            "sourceCode": "import { Observable } from 'rxjs';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { HasId } from './has-id.model';\r\nimport { PagingParams } from './paging-params.model';\r\nimport { Page } from './page.model';\r\nimport { FilterModel } from './filter.model';\r\n\r\n\r\nexport abstract class CrudDataProvider<T extends HasId, TFilter extends FilterModel> {\r\n    protected abstract api: string;\r\n    protected abstract routes: string[];\r\n\r\n    constructor(protected httpClient: HttpClient) {\r\n    }\r\n\r\n    search(filter: PagingParams<TFilter>, parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = this.getBaseUrl(parentIds);\r\n\r\n        const requestParams: any = {\r\n            skip: filter.skip.toString(),\r\n            take: filter.take.toString()\r\n        };\r\n\r\n        if (filter.filter) {\r\n            for (const key in filter.filter) {\r\n                if (Object.prototype.hasOwnProperty.call(filter.filter, key)) {\r\n                    const element = filter.filter[key];\r\n                    if (element !== null && element !== undefined) {\r\n                        requestParams[key] = element;\r\n                    }\r\n                }\r\n            }\r\n        }\r\n\r\n        return this.httpClient.get<Page<T>>(url, {\r\n            params: requestParams\r\n        });\r\n    }\r\n\r\n    create(record: T, parentIds: string[] = null): Observable<T> {\r\n        const url = `${this.getBaseUrl(parentIds)}`;\r\n        return this.httpClient.post<T>(url, record);\r\n    }\r\n\r\n    getById(id: string, parentIds: string[] = null): Observable<T> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}`;\r\n        return this.httpClient.get<T>(url);\r\n    }\r\n\r\n    update(record: T, parentIds: string[] = null): Observable<void> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${record.id}`;\r\n        return this.httpClient.put<void>(url, record);\r\n    }\r\n\r\n    delete(id: string, parentIds: string[] = null): Observable<void> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}`;\r\n        return this.httpClient.delete<void>(url);\r\n    }\r\n\r\n    getRoot(parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = `${this.getBaseUrl(parentIds)}/root`;\r\n        return this.httpClient.get<Page<T>>(url);\r\n    }\r\n\r\n    getChildren(id: string, parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}/children`;\r\n        return this.httpClient.get<Page<T>>(url);\r\n    }\r\n\r\n    protected getBaseUrl(parentIds: string[] = null) {\r\n        this.verifyParentIds(parentIds);\r\n        let url = `${this.api}`;\r\n        for (let index = 0; index < this.routes.length; index++) {\r\n            const route = this.routes[index];\r\n            url += '/' + route;\r\n\r\n            if (index !== this.routes.length - 1) {\r\n                url += '/' + parentIds[index];\r\n            }\r\n        }\r\n        return url;\r\n    }\r\n\r\n    private verifyParentIds(parentIds: string[]) {\r\n        if (this.routes.length > 1 && (\r\n            !parentIds || parentIds.length !== this.routes.length - 1\r\n        )) {\r\n            throw Error('Not enough parent ids provided.');\r\n        }\r\n    }\r\n}\r\n",
+            "sourceCode": "import { Observable } from 'rxjs';\r\nimport { HttpClient } from '@angular/common/http';\r\nimport { HasId } from './has-id.model';\r\nimport { PagingParams } from './paging-params.model';\r\nimport { Page } from './page.model';\r\nimport { FilterModel } from './filter.model';\r\nimport { ClrDatagridSortOrder } from '@clr/angular';\r\n\r\n\r\nexport abstract class CrudDataProvider<T extends HasId, TFilter extends FilterModel> {\r\n    protected abstract api: string;\r\n    protected abstract routes: string[];\r\n\r\n    constructor(protected httpClient: HttpClient) {\r\n    }\r\n\r\n    search(filter: PagingParams<TFilter>, parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = this.getBaseUrl(parentIds);\r\n\r\n        const requestParams: any = {\r\n            skip: filter.skip.toString(),\r\n            take: filter.take.toString()\r\n        };\r\n\r\n        if (filter.sort) {\r\n            requestParams.sortColumn = filter.sort.column;\r\n\r\n            if (filter.sort.direction !== ClrDatagridSortOrder.UNSORTED) {\r\n                requestParams.sortDirection = filter.sort.direction;\r\n            }\r\n        }\r\n\r\n        if (filter.filter) {\r\n            for (const key in filter.filter) {\r\n                if (Object.prototype.hasOwnProperty.call(filter.filter, key)) {\r\n                    const element = filter.filter[key];\r\n                    if (element !== null && element !== undefined) {\r\n                        requestParams[key] = element;\r\n                    }\r\n                }\r\n            }\r\n        }\r\n\r\n        return this.httpClient.get<Page<T>>(url, {\r\n            params: requestParams\r\n        });\r\n    }\r\n\r\n    create(record: T, parentIds: string[] = null): Observable<T> {\r\n        const url = `${this.getBaseUrl(parentIds)}`;\r\n        return this.httpClient.post<T>(url, record);\r\n    }\r\n\r\n    getById(id: string, parentIds: string[] = null): Observable<T> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}`;\r\n        return this.httpClient.get<T>(url);\r\n    }\r\n\r\n    update(record: T, parentIds: string[] = null): Observable<void> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${record.id}`;\r\n        return this.httpClient.put<void>(url, record);\r\n    }\r\n\r\n    delete(id: string, parentIds: string[] = null): Observable<void> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}`;\r\n        return this.httpClient.delete<void>(url);\r\n    }\r\n\r\n    getRoot(parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = `${this.getBaseUrl(parentIds)}/root`;\r\n        return this.httpClient.get<Page<T>>(url);\r\n    }\r\n\r\n    getChildren(id: string, parentIds: string[] = null): Observable<Page<T>> {\r\n        const url = `${this.getBaseUrl(parentIds)}/${id}/children`;\r\n        return this.httpClient.get<Page<T>>(url);\r\n    }\r\n\r\n    protected getBaseUrl(parentIds: string[] = null): string {\r\n        this.verifyParentIds(parentIds);\r\n        let url = `${this.api}`;\r\n        for (let index = 0; index < this.routes.length; index++) {\r\n            const route = this.routes[index];\r\n            url += '/' + route;\r\n\r\n            if (index !== this.routes.length - 1) {\r\n                url += '/' + parentIds[index];\r\n            }\r\n        }\r\n        return url;\r\n    }\r\n\r\n    private verifyParentIds(parentIds: string[]): void {\r\n        if (this.routes.length > 1 && (\r\n            !parentIds || parentIds.length !== this.routes.length - 1\r\n        )) {\r\n            throw Error('Not enough parent ids provided.');\r\n        }\r\n    }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -1306,7 +1374,7 @@
                         "type": "HttpClient"
                     }
                 ],
-                "line": 11,
+                "line": 12,
                 "jsdoctags": [
                     {
                         "name": "httpClient",
@@ -1323,7 +1391,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 10,
+                    "line": 11,
                     "modifierKind": [
                         113,
                         117
@@ -1334,7 +1402,7 @@
                     "type": "string[]",
                     "optional": false,
                     "description": "",
-                    "line": 11,
+                    "line": 12,
                     "modifierKind": [
                         113,
                         117
@@ -1358,7 +1426,7 @@
                     "optional": false,
                     "returnType": "Observable<T>",
                     "typeParameters": [],
-                    "line": 40,
+                    "line": 49,
                     "jsdoctags": [
                         {
                             "name": "record",
@@ -1393,7 +1461,7 @@
                     "optional": false,
                     "returnType": "Observable<void>",
                     "typeParameters": [],
-                    "line": 55,
+                    "line": 64,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -1424,7 +1492,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 70,
+                    "line": 79,
                     "modifierKind": [
                         113
                     ],
@@ -1455,7 +1523,7 @@
                     "optional": false,
                     "returnType": "Observable<T>",
                     "typeParameters": [],
-                    "line": 45,
+                    "line": 54,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -1490,7 +1558,7 @@
                     "optional": false,
                     "returnType": "Observable<Page<T>>",
                     "typeParameters": [],
-                    "line": 65,
+                    "line": 74,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -1521,7 +1589,7 @@
                     "optional": false,
                     "returnType": "Observable<Page<T>>",
                     "typeParameters": [],
-                    "line": 60,
+                    "line": 69,
                     "jsdoctags": [
                         {
                             "name": "parentIds",
@@ -1549,7 +1617,7 @@
                     "optional": false,
                     "returnType": "Observable<Page<T>>",
                     "typeParameters": [],
-                    "line": 16,
+                    "line": 17,
                     "jsdoctags": [
                         {
                             "name": "filter",
@@ -1584,7 +1652,7 @@
                     "optional": false,
                     "returnType": "Observable<void>",
                     "typeParameters": [],
-                    "line": 50,
+                    "line": 59,
                     "jsdoctags": [
                         {
                             "name": "record",
@@ -1614,7 +1682,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 84,
+                    "line": 93,
                     "modifierKind": [
                         112
                     ],
@@ -1639,8 +1707,64 @@
     "directives": [],
     "components": [
         {
+            "name": "FilterContainerComponent",
+            "id": "component-FilterContainerComponent-481f09b9a1a374ba42ed72589edac451",
+            "file": "projects/admin-screens/src/lib/filter-container/filter-container.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "adm-filter-container",
+            "styleUrls": [
+                "./filter-container.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./filter-container.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 12
+                }
+            ],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'adm-filter-container',\n  templateUrl: './filter-container.component.html',\n  styleUrls: ['./filter-container.component.css']\n})\nexport class FilterContainerComponent implements OnInit {\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./filter-container.component.css"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [],
+                "line": 8
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<p>filter-container works!</p>\n"
+        },
+        {
             "name": "PagedListComponent",
-            "id": "component-PagedListComponent-c39d2aea7166e6868e7670532385e6d4",
+            "id": "component-PagedListComponent-e657d0b6f7b3275121166bbb6f9a54d2",
             "file": "projects/admin-screens/src/lib/paged-list/paged-list.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1661,82 +1785,86 @@
                     "name": "buttonBarActions",
                     "defaultValue": "[]",
                     "description": "<p>Actions to show on top of the grid, in the action bar.</p>\n",
-                    "line": 37,
+                    "line": 43,
                     "type": "ButtonBarAction<T>[]"
                 },
                 {
                     "name": "columns",
                     "defaultValue": "[]",
                     "description": "<p>Columns to build in the grid.</p>\n",
-                    "line": 29,
+                    "line": 35,
                     "type": "Column<T>[]"
                 },
                 {
                     "name": "currentPage",
                     "defaultValue": "0",
                     "description": "<p>Current selected page, starting at 0.</p>\n",
-                    "line": 53,
-                    "type": "number"
+                    "line": 59
+                },
+                {
+                    "name": "entityPluralName",
+                    "defaultValue": "'entities'",
+                    "description": "<p>The pluralized name of the entity, shown in the pager.</p>\n",
+                    "line": 27
                 },
                 {
                     "name": "gridActions",
                     "defaultValue": "[]",
                     "description": "<p>Actions to show inside the grid, with a dropdown on each line.</p>\n",
-                    "line": 33,
+                    "line": 39,
                     "type": "GridAction<T>[]"
                 },
                 {
                     "name": "loading",
                     "defaultValue": "ClrLoadingState.DEFAULT",
                     "description": "<p>Indicates is the data is loading or refreshing.</p>\n",
-                    "line": 25,
+                    "line": 31,
                     "type": "ClrLoadingState"
                 },
                 {
                     "name": "pageSize",
                     "defaultValue": "10",
                     "description": "<p>The number of records in this page.</p>\n",
-                    "line": 57,
-                    "type": "number"
+                    "line": 63
                 },
                 {
                     "name": "pageSizeOptions",
                     "defaultValue": "[5, 10, 15, 20, 50, 100]",
                     "description": "<p>Page size options the user can choose from.</p>\n",
-                    "line": 45
+                    "line": 51
                 },
                 {
                     "name": "records",
                     "defaultValue": "[]",
                     "description": "<p>Slice of data records to show.</p>\n",
-                    "line": 41,
+                    "line": 47,
                     "type": "T[]"
                 },
                 {
                     "name": "sortColumn",
                     "description": "<p>The column to sort by.</p>\n",
-                    "line": 61,
+                    "line": 67,
                     "type": "string"
                 },
                 {
                     "name": "sortDirection",
                     "description": "<p>The direction to sort by</p>\n",
-                    "line": 65,
+                    "line": 71,
                     "type": "ClrDatagridSortOrder"
                 },
                 {
                     "name": "total",
                     "defaultValue": "0",
                     "description": "<p>Total amount of records. In case of server side paging, this is the amount of records on the server matching the filters.</p>\n",
-                    "line": 49,
-                    "type": "number"
+                    "line": 55
                 }
             ],
             "outputsClass": [
                 {
                     "name": "update",
-                    "defaultValue": "new EventEmitter<ClrDatagridStateInterface>()",
-                    "line": 66,
+                    "defaultValue": "new EventEmitter<PageSelection>()",
+                    "description": "<p>An update occured to the grid configuration.</p>\n",
+                    "line": 75,
                     "type": "EventEmitter"
                 }
             ],
@@ -1747,7 +1875,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 18
+                    "line": 20
                 },
                 {
                     "name": "ClrDatagridSortOrder",
@@ -1755,7 +1883,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 19
                 },
                 {
                     "name": "ColumnDataVisualizationType",
@@ -1763,7 +1891,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 18
                 },
                 {
                     "name": "firstEventIgnored",
@@ -1771,7 +1899,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 20,
+                    "line": 22,
                     "modifierKind": [
                         112
                     ]
@@ -1782,7 +1910,7 @@
                     "type": "T[]",
                     "optional": false,
                     "description": "",
-                    "line": 68
+                    "line": 77
                 }
             ],
             "methodsClass": [
@@ -1799,9 +1927,9 @@
                         }
                     ],
                     "optional": false,
-                    "returnType": "any",
+                    "returnType": "string",
                     "typeParameters": [],
-                    "line": 83,
+                    "line": 94,
                     "jsdoctags": [
                         {
                             "name": "column",
@@ -1825,7 +1953,40 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 72
+                    "line": 82
+                },
+                {
+                    "name": "performAction",
+                    "args": [
+                        {
+                            "name": "action",
+                            "type": "Action<T>"
+                        },
+                        {
+                            "name": "records",
+                            "type": "T[]"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 111,
+                    "jsdoctags": [
+                        {
+                            "name": "action",
+                            "type": "Action<T>",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "records",
+                            "type": "T[]",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "propertyValue",
@@ -1840,9 +2001,9 @@
                         }
                     ],
                     "optional": false,
-                    "returnType": "any",
+                    "returnType": "string",
                     "typeParameters": [],
-                    "line": 75,
+                    "line": 86,
                     "jsdoctags": [
                         {
                             "name": "column",
@@ -1871,7 +2032,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 87,
+                    "line": 98,
                     "jsdoctags": [
                         {
                             "name": "state",
@@ -1888,7 +2049,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';\nimport { ActionTypeEnum } from '../action-type.enum';\nimport { ButtonBarAction } from '../button-bar-action.model';\nimport { ColumnDataVisualizationType } from '../column-data-visualization-type.enum';\nimport { Column } from '../column.model';\nimport { GridAction } from '../grid-action.model';\nimport { HasId } from '../has-id.model';\n\n@Component({\n    selector: 'adm-paged-list',\n    templateUrl: './paged-list.component.html',\n    styleUrls: ['./paged-list.component.css']\n})\nexport class PagedListComponent<T extends HasId> implements OnInit {\n    ColumnDataVisualizationType = ColumnDataVisualizationType;\n    ClrDatagridSortOrder = ClrDatagridSortOrder;\n    ActionTypeEnum = ActionTypeEnum;\n\n    private firstEventIgnored = false;\n\n    /**\n     * Indicates is the data is loading or refreshing.\n     */\n    @Input() loading: ClrLoadingState = ClrLoadingState.DEFAULT;\n    /**\n     * Columns to build in the grid.\n     */\n    @Input() columns: Column<T>[] = [];\n    /**\n     * Actions to show inside the grid, with a dropdown on each line.\n     */\n    @Input() gridActions: GridAction<T>[] = [];\n    /**\n     * Actions to show on top of the grid, in the action bar.\n     */\n    @Input() buttonBarActions: ButtonBarAction<T>[] = [];\n    /**\n     * Slice of data records to show.\n     */\n    @Input() records: T[] = [];\n    /**\n     * Page size options the user can choose from.\n     */\n    @Input() pageSizeOptions = [5, 10, 15, 20, 50, 100];\n    /**\n     * Total amount of records. In case of server side paging, this is the amount of records on the server matching the filters.\n     */\n    @Input() total: number = 0;\n    /**\n     * Current selected page, starting at 0.\n     */\n    @Input() currentPage: number = 0;\n    /**\n     * The number of records in this page.\n     */\n    @Input() pageSize: number = 10;\n    /**\n     * The column to sort by.\n     */\n    @Input() sortColumn: string;\n    /** \n     * The direction to sort by\n     */\n    @Input() sortDirection: ClrDatagridSortOrder;\n    @Output() update = new EventEmitter<ClrDatagridStateInterface>();\n\n    selectedRecords: T[] = [];\n\n    constructor() { }\n\n    ngOnInit(): void {\n    }\n\n    propertyValue(column: Column<T>, record: T) {\n        if (column.propertyExpression) {\n            return column.propertyExpression(record);\n        } else {\n            return record[column.property];\n        }\n    }\n\n    formatObject(column: Column<T>, label: any) {\n        return column.subPropertyExpression(label);\n    }\n\n    refreshDataGrid(state: ClrDatagridStateInterface) {\n        if (!this.firstEventIgnored) {\n            this.firstEventIgnored = true;\n        } else {\n            console.info('grid state changed', state);\n            this.update.next(state);\n        }\n    }\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';\nimport { ClrDatagridSortOrder, ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';\nimport { ActionTypeEnum } from '../action-type.enum';\nimport { Action } from '../action.model';\nimport { ButtonBarAction } from '../button-bar-action.model';\nimport { ColumnDataVisualizationType } from '../column-data-visualization-type.enum';\nimport { Column } from '../column.model';\nimport { GridAction } from '../grid-action.model';\nimport { HasId } from '../has-id.model';\nimport { PageSelection } from './page-selection.model';\n\n@Component({\n    selector: 'adm-paged-list',\n    templateUrl: './paged-list.component.html',\n    styleUrls: ['./paged-list.component.css']\n})\nexport class PagedListComponent<T extends HasId> implements OnInit {\n    ColumnDataVisualizationType = ColumnDataVisualizationType;\n    ClrDatagridSortOrder = ClrDatagridSortOrder;\n    ActionTypeEnum = ActionTypeEnum;\n\n    private firstEventIgnored = false;\n\n    /**\n     * The pluralized name of the entity, shown in the pager.\n     */\n    @Input() entityPluralName = 'entities';\n    /**\n     * Indicates is the data is loading or refreshing.\n     */\n    @Input() loading: ClrLoadingState = ClrLoadingState.DEFAULT;\n    /**\n     * Columns to build in the grid.\n     */\n    @Input() columns: Column<T>[] = [];\n    /**\n     * Actions to show inside the grid, with a dropdown on each line.\n     */\n    @Input() gridActions: GridAction<T>[] = [];\n    /**\n     * Actions to show on top of the grid, in the action bar.\n     */\n    @Input() buttonBarActions: ButtonBarAction<T>[] = [];\n    /**\n     * Slice of data records to show.\n     */\n    @Input() records: T[] = [];\n    /**\n     * Page size options the user can choose from.\n     */\n    @Input() pageSizeOptions = [5, 10, 15, 20, 50, 100];\n    /**\n     * Total amount of records. In case of server side paging, this is the amount of records on the server matching the filters.\n     */\n    @Input() total = 0;\n    /**\n     * Current selected page, starting at 0.\n     */\n    @Input() currentPage = 0;\n    /**\n     * The number of records in this page.\n     */\n    @Input() pageSize = 10;\n    /**\n     * The column to sort by.\n     */\n    @Input() sortColumn: string;\n    /**\n     * The direction to sort by\n     */\n    @Input() sortDirection: ClrDatagridSortOrder;\n    /**\n     * An update occured to the grid configuration.\n     */\n    @Output() update = new EventEmitter<PageSelection>();\n\n    selectedRecords: T[] = [];\n    \n\n    constructor() { }\n\n    ngOnInit(): void {\n        // Todo: Validate input configuration\n    }\n\n    propertyValue(column: Column<T>, record: T): string {\n        if (column.propertyExpression) {\n            return column.propertyExpression(record);\n        } else {\n            return record[column.property];\n        }\n    }\n\n    formatObject(column: Column<T>, label: any): string {\n        return column.subPropertyExpression(label);\n    }\n\n    refreshDataGrid(state: ClrDatagridStateInterface): void {\n        if (!this.firstEventIgnored) {\n            this.firstEventIgnored = true;\n        } else {\n            this.update.next({\n                pageSize: state.page.size,\n                page: state.page.current - 1,\n                sortColumn: state.sort?.by as string,\n                sortDirection: state.sort?.reverse ? ClrDatagridSortOrder.DESC : ClrDatagridSortOrder.ASC\n            });\n        }\n    }\n\n    performAction(action: Action<T>, records: T[]): void {\n        action.state = ClrLoadingState.LOADING;\n        action.execute(records)\n            .subscribe(() => {\n                action.state = ClrLoadingState.SUCCESS;\n            }, () => {\n                action.state = ClrLoadingState.ERROR;\n            });\n    }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1901,12 +2062,73 @@
                 "name": "constructor",
                 "description": "",
                 "args": [],
-                "line": 68
+                "line": 77
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"clr-row\">\n    <div class=\"clr-col\">\n        <clr-datagrid class=\"adm-datagrid\" (clrDgRefresh)=\"refreshDataGrid($event)\" [clrDgLoading]=\"loading\"\n            [clrDgSelected]=\"selectedRecords\" [clrDgPreserveSelection]=\"true\">\n            <clr-dg-column *ngFor=\"let column of columns\" [clrDgSortBy]=\"column.sortable ? column.id : null\"\n                [clrDgSortOrder]=\"column.id === sortColumn ? sortDirection : ClrDatagridSortOrder.UNSORTED\">\n                <ng-container *clrDgHideableColumn=\"{hidden: column.hidden}\">\n                    {{ column.title }}\n                </ng-container>\n            </clr-dg-column>\n\n            <clr-dg-row *ngFor=\"let record of records\" [clrDgItem]=\"record\">\n                <ng-container *ngFor=\"let column of columns\">\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Hyperlink\">\n                        <a *ngIf=\"column.route\" [routerLink]=\"column.route(record)\">{{propertyValue(column,\n                            record)}}</a>\n                        <a *ngIf=\"!column.route\" [href]=\"propertyValue(column, record)\"\n                            target=\"_blank\">{{propertyValue(column,\n                            record)}}</a>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Text\">\n                        {{propertyValue(column, record)}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Json\">\n                        {{propertyValue(column, record) | json}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.LabelArray\">\n                        <span class=\"label label-sm\" *ngFor=\"let label of propertyValue(column, record)\">{{ label\n                            }}</span>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.ObjectArray\">\n                        <span class=\"label label-sm\" *ngFor=\"let label of propertyValue(column, record)\">{{\n                            formatObject(column, label) }}</span>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Date\">\n                        {{propertyValue(column, record) | date}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Check\">\n                        <clr-icon shape=\"check\" *ngIf=\"propertyValue(column, record)\"></clr-icon>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Image\">\n                        <ng-container *ngIf=\"propertyValue(column, record)\"><img [src]=\"propertyValue(column, record)\">\n                        </ng-container>\n                    </clr-dg-cell>\n                </ng-container>\n\n                <clr-dg-action-overflow *ngIf=\"gridActions.length > 0\">\n                    <ng-container *ngFor=\"let action of gridActions\">\n                        <ng-container *ngIf=\"action.type === ActionTypeEnum.Href\">\n                            <a [href]=\"action.href(action)\" target=\"_blank\" class=\"action-item\">{{\n                                action.gridLabel(record) }}</a>\n                        </ng-container>\n                        <ng-container *ngIf=\"action.type === ActionTypeEnum.RouterLink\">\n                            <button [routerLink]=\"action.routerLink(record)\"\n                                [queryParams]=\"action.routerQueryParams(record)\" class=\"action-item\">{{\n                                action.gridLabel(record)\n                                }}</button>\n                        </ng-container>\n                    </ng-container>\n                </clr-dg-action-overflow>\n            </clr-dg-row>\n\n            <clr-dg-footer>\n                <clr-dg-pagination #pagination [clrDgPageSize]=\"pageSize\" [clrDgPage]=\"currentPage + 1\"\n                    [clrDgTotalItems]=\"total\">\n                    <clr-dg-page-size [clrPageSizeOptions]=\"pageSizeOptions\">entities per page\n                    </clr-dg-page-size>\n                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}\n                    of {{pagination.totalItems}} entities\n                </clr-dg-pagination>\n            </clr-dg-footer>\n        </clr-datagrid>\n    </div>\n</div>"
+            "templateData": "<div class=\"clr-row\">\n    <div class=\"clr-col\">\n        <clr-datagrid class=\"adm-datagrid\" (clrDgRefresh)=\"refreshDataGrid($event)\" [clrDgLoading]=\"loading\"\n            [(clrDgSelected)]=\"selectedRecords\" [clrDgPreserveSelection]=\"true\">\n            <clr-dg-action-bar *ngIf=\"buttonBarActions && buttonBarActions.length > 0\">\n                <ng-container *ngFor=\"let action of buttonBarActions\">\n                    <button *ngIf=\"action.type === ActionTypeEnum.RouterLink\" type=\"button\" class=\"btn\"\n                        [ngClass]=\"action.classes\" [routerLink]=\"action.routerLink\"\n                        [queryParams]=\"action.routerQueryParams\">\n                        <clr-icon [attr.shape]=\"action.icon\" *ngIf=\"action.icon\"></clr-icon> {{ action.label }}\n                    </button>\n                    <button\n                        *ngIf=\"action.type === ActionTypeEnum.Action || action.type === ActionTypeEnum.ActionAndReload\"\n                        [ngClass]=\"action.classes\" [disabled]=\"selectedRecords.length === 0\" [clrLoading]=\"action.state\"\n                        type=\"button\" class=\"btn\" (click)=\"performAction(action, selectedRecords)\">\n                        <clr-icon [attr.shape]=\"action.icon\" *ngIf=\"action.icon\"></clr-icon> {{ action.label }}\n                        <span *ngIf=\"selectedRecords.length > 1\" class=\"badge\"\n                            [ngClass]=\"action.badgeClasses\">{{selectedRecords.length}}</span>\n                    </button>\n                </ng-container>\n                <ng-content select=\"[actions]\"></ng-content>\n            </clr-dg-action-bar>\n\n            <clr-dg-column *ngFor=\"let column of columns\" [clrDgSortBy]=\"column.sortable ? column.id : null\"\n                [clrDgSortOrder]=\"column.id === sortColumn ? sortDirection : ClrDatagridSortOrder.UNSORTED\">\n                <ng-container *clrDgHideableColumn=\"{hidden: column.hidden}\">\n                    {{ column.title }}\n                </ng-container>\n            </clr-dg-column>\n            <clr-dg-row *ngFor=\"let record of records\" [clrDgItem]=\"record\">\n                <ng-container *ngFor=\"let column of columns\">\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Hyperlink\">\n                        <a *ngIf=\"column.route\" [routerLink]=\"column.route(record)\">{{propertyValue(column,\n                            record)}}</a>\n                        <a *ngIf=\"!column.route\" [href]=\"propertyValue(column, record)\"\n                            target=\"_blank\">{{propertyValue(column,\n                            record)}}</a>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Text\">\n                        {{propertyValue(column, record)}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Json\">\n                        {{propertyValue(column, record) | json}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.LabelArray\">\n                        <span class=\"label label-sm\" *ngFor=\"let label of propertyValue(column, record)\">{{ label\n                            }}</span>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.ObjectArray\">\n                        <span class=\"label label-sm\" *ngFor=\"let label of propertyValue(column, record)\">{{\n                            formatObject(column, label) }}</span>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Date\">\n                        {{propertyValue(column, record) | date}}\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Check\">\n                        <clr-icon shape=\"check\" *ngIf=\"propertyValue(column, record)\"></clr-icon>\n                    </clr-dg-cell>\n                    <clr-dg-cell *ngIf=\"column.visualization === ColumnDataVisualizationType.Image\">\n                        <ng-container *ngIf=\"propertyValue(column, record)\"><img [src]=\"propertyValue(column, record)\">\n                        </ng-container>\n                    </clr-dg-cell>\n                </ng-container>\n\n                <clr-dg-action-overflow *ngIf=\"gridActions.length > 0\">\n                    <ng-container *ngFor=\"let action of gridActions\">\n\n                        <a *ngIf=\"action.type === ActionTypeEnum.Href\" [href]=\"action.href(action)\" target=\"_blank\"\n                            class=\"action-item\">{{\n                            action.gridLabel(record) }}</a>\n\n                        <button *ngIf=\"action.type === ActionTypeEnum.RouterLink\"\n                            [routerLink]=\"action.recordRouterLink(record)\"\n                            [queryParams]=\"action.recordRouterQueryParams(record)\" class=\"action-item\">{{\n                            action.gridLabel(record)\n                            }}</button>\n                        <button\n                            *ngIf=\"action.type === ActionTypeEnum.Action || action.type === ActionTypeEnum.ActionAndReload\"\n                            class=\"action-item\" [clrLoading]=\"action.state\" (click)=\"performAction(action, [record])\">{{\n                            action.gridLabel(record)\n                            }}</button>\n                    </ng-container>\n                </clr-dg-action-overflow>\n            </clr-dg-row>\n\n            <clr-dg-footer>\n                <clr-dg-pagination #pagination [clrDgPageSize]=\"pageSize\" [clrDgPage]=\"currentPage + 1\"\n                    [clrDgTotalItems]=\"total\">\n                    <clr-dg-page-size [clrPageSizeOptions]=\"pageSizeOptions\">{{entityPluralName}} per page\n                    </clr-dg-page-size>\n                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}\n                    of {{pagination.totalItems}} {{entityPluralName}}\n                </clr-dg-pagination>\n            </clr-dg-footer>\n        </clr-datagrid>\n    </div>\n</div>"
+        },
+        {
+            "name": "SectionTitleComponent",
+            "id": "component-SectionTitleComponent-b3dd492902c20ad1e123083dd6c429be",
+            "file": "projects/admin-screens/src/lib/section-title/section-title.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "adm-section-title",
+            "styleUrls": [
+                "./section-title.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./section-title.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "hasToggle",
+                    "defaultValue": "false",
+                    "line": 11
+                },
+                {
+                    "name": "title",
+                    "line": 9,
+                    "type": "string"
+                },
+                {
+                    "name": "toggled",
+                    "defaultValue": "true",
+                    "line": 10
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "toggledChange",
+                    "defaultValue": "new EventEmitter<boolean>()",
+                    "line": 12,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "",
+            "type": "component",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\n\n@Component({\n  selector: 'adm-section-title',\n  templateUrl: './section-title.component.html',\n  styleUrls: ['./section-title.component.css']\n})\nexport class SectionTitleComponent {\n  @Input() title: string;\n  @Input() toggled = true;\n  @Input() hasToggle = false;\n  @Output() toggledChange = new EventEmitter<boolean>();\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".title {\r\n    color: var(--clr-color-on-action-600);\r\n    padding: 0.2rem 0.4rem;\r\n    text-transform: uppercase;\r\n    font-weight: bold;\r\n    font-size: 14px;\r\n}\r\n.title-wrapper {\r\n    margin-top: 0;\r\n    margin-bottom: 0;\r\n    background-color: var(--clr-color-action-600);\r\n}\r\n.toggle-button {\r\n    color: var(--clr-color-on-action-600);\r\n    margin: 0;\r\n    padding: 0;\r\n}",
+                    "styleUrl": "./section-title.component.css"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<div class=\"clr-row clr-justify-content-between title-wrapper\">\n    <div class=\"clr-col-auto\">\n        <h3 class=\"title\">\n            {{ title }}\n        </h3>\n    </div>\n    <div class=\"clr-col-auto\">\n        <button class=\"btn btn-icon btn-link toggle-button\" *ngIf=\"hasToggle\">\n            <clr-icon *ngIf=\"toggled\" shape=\"caret\" dir=\"up\"></clr-icon>\n            <clr-icon *ngIf=\"toggled\" shape=\"caret\" dir=\"down\"></clr-icon>\n        </button>\n    </div>\n</div>"
         }
     ],
     "modules": [
@@ -1921,7 +2143,13 @@
                     "type": "declarations",
                     "elements": [
                         {
+                            "name": "FilterContainerComponent"
+                        },
+                        {
                             "name": "PagedListComponent"
+                        },
+                        {
+                            "name": "SectionTitleComponent"
                         }
                     ]
                 },
@@ -1951,6 +2179,14 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "ActionBarStory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/paged-list.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "context",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1959,7 +2195,7 @@
                 "defaultValue": "require.context('./', true, /\\.spec\\.ts$/)"
             },
             {
-                "name": "Loading",
+                "name": "GridActionsStory",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "stories/paged-list.stories.ts",
@@ -1967,7 +2203,15 @@
                 "defaultValue": "Template.bind({})"
             },
             {
-                "name": "Ready",
+                "name": "LoadingStory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/paged-list.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "ReadyStory",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "stories/paged-list.stories.ts",
@@ -1982,6 +2226,30 @@
                 "type": "literal type"
             },
             {
+                "name": "SectionTitleStory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/title-section.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "SectionTitleWithToggleStory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/title-section.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "SimpleColumnStory",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "stories/paged-list.stories.ts",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1990,12 +2258,12 @@
                 "defaultValue": "(args: PagedListComponent<HasId>) => ({\n  component: PagedListComponent,\n  props: args,\n})"
             },
             {
-                "name": "TextColumn",
+                "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "stories/paged-list.stories.ts",
-                "type": "",
-                "defaultValue": "Template.bind({})"
+                "file": "stories/title-section.stories.ts",
+                "type": "Story<SectionTitleComponent>",
+                "defaultValue": "(args: SectionTitleComponent) => ({\r\n  component: SectionTitleComponent,\r\n  props: args,\r\n})"
             }
         ],
         "functions": [],
@@ -2057,6 +2325,56 @@
             }
         ],
         "groupedVariables": {
+            "stories/paged-list.stories.ts": [
+                {
+                    "name": "ActionBarStory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "GridActionsStory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "LoadingStory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "ReadyStory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "SimpleColumnStory",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "stories/paged-list.stories.ts",
+                    "type": "Story<PagedListComponent<HasId>>",
+                    "defaultValue": "(args: PagedListComponent<HasId>) => ({\n  component: PagedListComponent,\n  props: args,\n})"
+                }
+            ],
             "projects/admin-screens/src/test.ts": [
                 {
                     "name": "context",
@@ -2074,20 +2392,20 @@
                     "type": "literal type"
                 }
             ],
-            "stories/paged-list.stories.ts": [
+            "stories/title-section.stories.ts": [
                 {
-                    "name": "Loading",
+                    "name": "SectionTitleStory",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "stories/paged-list.stories.ts",
+                    "file": "stories/title-section.stories.ts",
                     "type": "",
                     "defaultValue": "Template.bind({})"
                 },
                 {
-                    "name": "Ready",
+                    "name": "SectionTitleWithToggleStory",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "stories/paged-list.stories.ts",
+                    "file": "stories/title-section.stories.ts",
                     "type": "",
                     "defaultValue": "Template.bind({})"
                 },
@@ -2095,17 +2413,9 @@
                     "name": "Template",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "stories/paged-list.stories.ts",
-                    "type": "Story<PagedListComponent<HasId>>",
-                    "defaultValue": "(args: PagedListComponent<HasId>) => ({\n  component: PagedListComponent,\n  props: args,\n})"
-                },
-                {
-                    "name": "TextColumn",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "stories/paged-list.stories.ts",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
+                    "file": "stories/title-section.stories.ts",
+                    "type": "Story<SectionTitleComponent>",
+                    "defaultValue": "(args: SectionTitleComponent) => ({\r\n  component: SectionTitleComponent,\r\n  props: args,\r\n})"
                 }
             ]
         },
@@ -2174,7 +2484,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 2,
+        "count": 1,
         "status": "low",
         "files": [
             {
@@ -2183,7 +2493,7 @@
                 "linktype": "interface",
                 "name": "Action",
                 "coveragePercent": 0,
-                "coverageCount": "0/6",
+                "coverageCount": "0/11",
                 "status": "low"
             },
             {
@@ -2232,6 +2542,15 @@
                 "status": "low"
             },
             {
+                "filePath": "projects/admin-screens/src/lib/filter-container/filter-container.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "FilterContainerComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
                 "filePath": "projects/admin-screens/src/lib/filter.model.ts",
                 "type": "interface",
                 "linktype": "interface",
@@ -2246,7 +2565,7 @@
                 "linktype": "interface",
                 "name": "GridAction",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {
@@ -2268,13 +2587,22 @@
                 "status": "low"
             },
             {
+                "filePath": "projects/admin-screens/src/lib/paged-list/page-selection.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "PageSelection",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
                 "filePath": "projects/admin-screens/src/lib/paged-list/paged-list.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "PagedListComponent",
-                "coveragePercent": 47,
-                "coverageCount": "11/23",
-                "status": "medium"
+                "coveragePercent": 52,
+                "coverageCount": "13/25",
+                "status": "good"
             },
             {
                 "filePath": "projects/admin-screens/src/lib/paging-params.model.ts",
@@ -2292,6 +2620,15 @@
                 "name": "RouteStateEntityLoader",
                 "coveragePercent": 0,
                 "coverageCount": "0/27",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/admin-screens/src/lib/section-title/section-title.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SectionTitleComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -2328,7 +2665,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Loading",
+                "name": "ActionBarStory",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -2338,7 +2675,37 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Ready",
+                "name": "GridActionsStory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/paged-list.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoadingStory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/paged-list.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "ReadyStory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/paged-list.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "SimpleColumnStory",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -2354,11 +2721,31 @@
                 "status": "low"
             },
             {
-                "filePath": "stories/paged-list.stories.ts",
+                "filePath": "stories/title-section.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "TextColumn",
+                "name": "SectionTitleStory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/title-section.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "SectionTitleWithToggleStory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "stories/title-section.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
