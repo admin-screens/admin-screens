@@ -1,6 +1,16 @@
 {
-  "name": "admin",
-  "version": "0.0.0",
+  "name": "admin-screens",
+  "version": "0.0.1",
+  "license": "MIT",
+  "homepage": "https://admin-screens.github.io/admin-screens",
+  "author": {
+    "name": "Mathias Colpaert",
+    "email": "colpaert.mathias@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/admin-screens/admin-screens"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,7 +24,7 @@
     "build-storybook": "yarn docs:json && build-storybook",
     "publish-docs": "yarn build-storybook -o ./docs"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "~10.0.0",
     "@angular/common": "~10.0.0",

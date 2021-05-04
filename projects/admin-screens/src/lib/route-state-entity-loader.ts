@@ -1,6 +1,6 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ClrDatagridSortOrder, ClrDatagridStateInterface } from '@clr/angular';
+import { ClrDatagridSortOrder } from '@clr/angular';
 import { Subscription } from 'rxjs';
 import { CrudDataProvider } from './crud-data-provider.base';
 import { EntityLoaderBase } from './entity-loader.base';

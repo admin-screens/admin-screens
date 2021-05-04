@@ -75,7 +75,6 @@ export class PagedListComponent<T extends HasId> implements OnInit {
     @Output() update = new EventEmitter<PageSelection>();
 
     selectedRecords: T[] = [];
-    
 
     constructor() { }
 
